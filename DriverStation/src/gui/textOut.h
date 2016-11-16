@@ -4,22 +4,23 @@
 #include <string>
 #include "gElem.h"
 #include "joyPanel.h"
+#include "appRes.h"
 using namespace sf;
 
-extern Font arial;
+extern AppRes* appRes;
 
 class TextOut: public GElem {
 public:
 	TextOut();
 
 	void setLabel(String s);
-	enum CtrType{button, axis, pov};
-	void setJoyLoc(int loc, CtrType tp);
+	enum CtlType{button, axis, pov};
+	void setJoyLoc(int loc, CtlType tp);
 
 	void update(GElem* parent);
 private:
 	String label;
 	int joyLoc;
-	CtrType type;
+	CtlType type;
 	String output;
 };

@@ -1,13 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include "gui/gui.h"
+#include "gui/appRes.h"
 using namespace sf;
 
-Font arial;
+AppRes* appRes;
 
 int main(){
 	RenderWindow window(VideoMode(1280, 720), "Transfarmers Driver Station");
-	arial.loadFromFile("res/arial.ttf");
 
+	AppRes res;
+	appRes = &res;
 	GUI gui;
 
 	while(window.isOpen()){
@@ -17,7 +19,7 @@ int main(){
 				window.close();
 			if(event.type == Event::Resized){
 				Vector2u size = window.getSize();
-				View view = View(FloatRect(0.0f, 0.0f, size.x, size.y));
+				View view = View(FloatRect(0.0f, 0.0f, (float)size.x, (float)size.y));
 				window.setView(view);
 			}
 		}
