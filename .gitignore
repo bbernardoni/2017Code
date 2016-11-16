@@ -1,0 +1,10 @@
+# vs files
+Debug/
+
+*.suo
+*.user
+*.vcxproj.filters
+
+*.aps
+*.opensdf
+*.sdf
