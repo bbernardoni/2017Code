@@ -1,9 +1,18 @@
 #include <SFML/Graphics.hpp>
 #include "gui/gui.h"
 #include "gui/appRes.h"
+#include "serial/serial.h"
 using namespace sf;
+using namespace serial;
 
 AppRes* appRes;
+
+void enumerate_ports(){
+	vector<PortInfo> devices_found = list_ports();
+	for (vector<PortInfo>::iterator it = devices_found.begin(); it != devices_found.end(); ++it){
+		printf("(%s, %s, %s)\n", it->port.c_str(), it->description.c_str(), it->hardware_id.c_str());
+	}
+}
 
 int main(){
 	RenderWindow window(VideoMode(1280, 720), "Transfarmers Driver Station");
@@ -12,6 +21,7 @@ int main(){
 	appRes = &res;
 	GUI gui;
 
+	enumerate_ports();
 	while(window.isOpen()){
 		Event event;
 		while(window.pollEvent(event)){
