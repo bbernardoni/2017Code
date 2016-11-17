@@ -3,7 +3,6 @@ Debug/
 
 *.suo
 *.user
-*.vcxproj.filters
 
 *.aps
 *.opensdf
