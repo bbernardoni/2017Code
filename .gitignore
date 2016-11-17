@@ -1,0 +1,9 @@
+# vs files
+Debug/
+
+*.suo
+*.user
+
+*.aps
+*.opensdf
+*.sdf

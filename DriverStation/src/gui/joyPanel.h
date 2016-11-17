@@ -4,9 +4,10 @@
 #include <string>
 #include "gElem.h"
 #include "textOut.h"
+#include "appRes.h"
 using namespace sf;
 
-extern Font arial;
+extern AppRes* appRes;
 
 class JoyPanel: public GElem {
 public:

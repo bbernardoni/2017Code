@@ -24,7 +24,7 @@ TextOut::TextOut(){
 	});
 
 	Text* labelText = new Text();
-	labelText->setFont(arial);
+	labelText->setFont(appRes->arial);
 	labelText->setCharacterSize(16);
 	labelText->setFillColor(Color::White);
 	addElem(labelText, ELEM_FUNC{
@@ -35,7 +35,7 @@ TextOut::TextOut(){
 	});
 
 	Text* outText = new Text();
-	outText->setFont(arial);
+	outText->setFont(appRes->arial);
 	outText->setCharacterSize(16);
 	outText->setFillColor(Color::White);
 	addElem(outText, ELEM_FUNC{
@@ -74,7 +74,7 @@ void TextOut::setLabel(String s){
 	label = s;
 }
 
-void TextOut::setJoyLoc(int loc, CtrType tp){
+void TextOut::setJoyLoc(int loc, CtlType tp){
 	joyLoc = loc;
 	type = tp;
 }

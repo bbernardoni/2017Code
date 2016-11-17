@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\src\ds.cpp" />
+    <ClCompile Include="..\src\gui\gElem.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\gui.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\joyPanel.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\textOut.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\gui\textOut.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\appRes.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\gElem.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\gui.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\joyPanel.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="gui">
+      <UniqueIdentifier>{4a4e5017-c548-427a-a921-576a64398b24}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
