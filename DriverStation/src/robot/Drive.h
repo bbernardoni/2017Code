@@ -14,10 +14,16 @@ public:
     
 	// Positive Modulus (n%i)
 	static float PMod(float n, float i) { return n - i*floor(n / i); }
-	// converts from [-1.0, 1.0] to [0,180] for servo write
-	static int SOut(float out) { return int((out+1.0f)*90.0f); }
-	// reverses from [180,0] to [0,180] for servo write
-	static int Rev(int out) { return 180-out; }
+	// truncates to [-1.0, 1.0]
+	static float Trunc(float out) {
+		if(out > 1.0f)  return  1.0f;
+		if(out < -1.0f) return -1.0f;
+		return out; 
+	}
+	// converts from [-1.0, 1.0] to [0,180] for the arduino
+	static char SOut(float out) { return (char)((out + 1.0f)*90.0f); }
+	// reverses from [180,0] to [0,180] for the arduino
+	static char Rev(char out) { return 180 - out; }
 
 private:
 	void fieldCentricControl(RobotOut& rOut, float transX, float transY, float rot, float gyro);

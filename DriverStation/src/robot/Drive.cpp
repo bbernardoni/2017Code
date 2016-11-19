@@ -53,23 +53,13 @@ void Drive::fieldCentricControl(RobotOut& rOut, float transX, float transY, floa
 }
 
 void Drive::robotCentricControl(RobotOut& rOut, float transX, float transY, float rot){
-	/* May need to add steer control like:
-	float transMag = (fabs(transX) > fabs(transY))? fabs(transX): fabs(transY);
-	rot *= (1-(1-m_tssr)*transMag);
-	*/
-   
-	float lSpeed = transY + rot;
-	float rSpeed = transY - rot;
-	if(lSpeed < -1.0f)
-		lSpeed = -1.0f;
-	if(lSpeed > 1.0f)
-		lSpeed = 1.0f;
-	if(rSpeed < -1.0f)
-		rSpeed = -1.0f;
-	if(rSpeed > 1.0f)
-		rSpeed = 1.0f;
+	float bl = transY - transX + rot;
+	float br = transY + transX + rot;
+	float fl = -transY + transX + rot;
+	float fr = -transY - transX + rot;
 
-	rOut.driveBL = SOut(lSpeed);
-	rOut.driveBR = Rev(SOut(rSpeed));
-	rOut.driveFR = Rev(SOut(transX));
+	rOut.driveBL = SOut(Trunc(bl));
+	rOut.driveBR = SOut(Trunc(br));
+	rOut.driveFL = SOut(Trunc(fl));
+	rOut.driveFR = SOut(Trunc(fr));
 }
