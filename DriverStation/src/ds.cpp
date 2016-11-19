@@ -22,6 +22,8 @@ int main(){
 	GUI gui;
 
 	enumerate_ports();
+	printf("X=%d, Y=%d, Z=%d, R=%d, U=%d, V=%d, povX=%d, povY=%d\n", Joystick::X, Joystick::Y, 
+		Joystick::Z, Joystick::R, Joystick::U, Joystick::V, Joystick::PovX, Joystick::PovY);
 
 	while(window.isOpen()){
 		Event event;

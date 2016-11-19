@@ -14,6 +14,12 @@
     <ClCompile Include="..\src\gui\textOut.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\robot\Robot.cpp">
+      <Filter>robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\Drive.cpp">
+      <Filter>robot</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\gui\textOut.h">
@@ -31,10 +37,28 @@
     <ClInclude Include="..\src\gui\joyPanel.h">
       <Filter>gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\robot\RobotIO.h">
+      <Filter>robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\robot\Drive.h">
+      <Filter>robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\robot\Robot.h">
+      <Filter>robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\robot\Constants.h">
+      <Filter>robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\robot\Controls.h">
+      <Filter>robot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="gui">
       <UniqueIdentifier>{4a4e5017-c548-427a-a921-576a64398b24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="robot">
+      <UniqueIdentifier>{104aa02c-24d1-4609-8dea-2a767201870e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
