@@ -1,7 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include "gui/gui.h"
 #include "gui/appRes.h"
-#include "serial/serial.h"
+#include "robot/Robot.h"
+#include "robot/RobotIO.h"
+#include <serial/serial.h>
 using namespace sf;
 using namespace serial;
 
@@ -20,6 +22,9 @@ int main(){
 	AppRes res;
 	appRes = &res;
 	GUI gui;
+	Robot robot;
+	RobotIn in;
+	RobotOut out;
 
 	enumerate_ports();
 	printf("X=%d, Y=%d, Z=%d, R=%d, U=%d, V=%d, povX=%d, povY=%d\n", Joystick::X, Joystick::Y, 
@@ -37,6 +42,8 @@ int main(){
 			}
 		}
 
+		// need comms
+		robot.periodic(in, out);
 		gui.update(window);
 
 		window.clear(Color(24,24,24));

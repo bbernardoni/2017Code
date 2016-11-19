@@ -6,20 +6,20 @@ Drive::Drive(DriveMode _mode){
 
 void Drive::periodic(const RobotIn& rIn, RobotOut& rOut){
 	switch(mode){
-	case fieldCentric:
+	case fieldCentric: {
 		if(CTRL_GYRO_RESET){
 			gyroOffset = rIn.gyroAngle;
 		}
 		if(CTRL_GYRO_ROT_CCW){ // need to latch mechanism
-			gyroOffset += PI/2.0f;
+			gyroOffset += PI / 2.0f;
 		}
 		if(CTRL_GYRO_ROT_CW){
-			gyroOffset -= PI/2.0f;
+			gyroOffset -= PI / 2.0f;
 		}
 
 		float gyroAngle = PMod(rIn.gyroAngle - gyroOffset, PI*2.0f);
 		fieldCentricControl(rOut, CTRL_TRANS_X, CTRL_TRANS_Y, CTRL_ROT, gyroAngle);
-		break;
+		break; }
 	case robotCentric:
 		robotCentricControl(rOut, CTRL_TRANS_X, CTRL_TRANS_Y, CTRL_ROT);
 		break;

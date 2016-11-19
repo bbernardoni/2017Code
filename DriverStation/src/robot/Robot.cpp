@@ -1,7 +1,7 @@
 #include "Robot.h"
 
-Robot::Robot(Drive::DriveMode _mode) :
-	drive(_mode)
+Robot::Robot() :
+	drive(DRIVE_MODE)
 {
 	
 }

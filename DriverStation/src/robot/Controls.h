@@ -23,9 +23,9 @@
 #define R_CLICK					(9)
 #define L_CLICK					(10)
 
-#define RAW_AXIS(IN, AXIS)		(sf::Joystick::getAxisPosition(IN, AXIS)/100.0)
-#define DB_CONST				(0.15)
-#define DEADBAND(VAL)			((abs(VAL) < DB_CONST)? 0: VAL)
+#define RAW_AXIS(IN, AXIS)		(sf::Joystick::getAxisPosition(IN, AXIS)/100.0f)
+#define DB_CONST				(0.15f)
+#define DEADBAND(VAL)			((fabs(VAL) < DB_CONST)? 0.0f: VAL)
 #define DB_AXIS(IN, AXIS)		(DEADBAND(RAW_AXIS(IN, AXIS)))
 
 #define GET_BUTTON(IN, BUT)		(sf::Joystick::isButtonPressed(IN, BUT))

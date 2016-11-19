@@ -2,10 +2,11 @@
 
 #include "Drive.h"
 #include "RobotIO.h"
+#include "Constants.h"
 
 class Robot {
 public:
-	Robot(Drive::DriveMode _mode);
+	Robot();
 	void periodic(const RobotIn& rIn, RobotOut& rOut);
 
 private:
