@@ -20,6 +20,9 @@
     <ClCompile Include="..\src\robot\Drive.cpp">
       <Filter>robot</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\utils\Comms.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\gui\textOut.h">
@@ -52,6 +55,9 @@
     <ClInclude Include="..\src\robot\Controls.h">
       <Filter>robot</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\utils\Comms.h">
+      <Filter>utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="gui">
@@ -59,6 +65,9 @@
     </Filter>
     <Filter Include="robot">
       <UniqueIdentifier>{104aa02c-24d1-4609-8dea-2a767201870e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{94829f90-07f9-41fe-aa87-957f1f397878}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

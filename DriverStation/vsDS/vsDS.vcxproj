@@ -82,6 +82,7 @@
     <ClCompile Include="..\src\gui\textOut.cpp" />
     <ClCompile Include="..\src\robot\Drive.cpp" />
     <ClCompile Include="..\src\robot\Robot.cpp" />
+    <ClCompile Include="..\src\utils\Comms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\gui\appRes.h" />
@@ -94,6 +95,7 @@
     <ClInclude Include="..\src\robot\Drive.h" />
     <ClInclude Include="..\src\robot\Robot.h" />
     <ClInclude Include="..\src\robot\RobotIO.h" />
+    <ClInclude Include="..\src\utils\Comms.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

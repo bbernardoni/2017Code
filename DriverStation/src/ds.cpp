@@ -1,20 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include "gui/gui.h"
 #include "gui/appRes.h"
+#include "utils/Comms.h"
 #include "robot/Robot.h"
 #include "robot/RobotIO.h"
-#include <serial/serial.h>
 using namespace sf;
-using namespace serial;
 
 AppRes* appRes;
-
-void enumerate_ports(){
-	vector<PortInfo> devices_found = list_ports();
-	for (vector<PortInfo>::iterator it = devices_found.begin(); it != devices_found.end(); ++it){
-		printf("(%s, %s, %s)\n", it->port.c_str(), it->description.c_str(), it->hardware_id.c_str());
-	}
-}
 
 int main(){
 	RenderWindow window(VideoMode(1280, 720), "Transfarmers Driver Station");
@@ -22,13 +14,8 @@ int main(){
 	AppRes res;
 	appRes = &res;
 	GUI gui;
+	Comms comms;
 	Robot robot;
-	RobotIn in;
-	RobotOut out;
-
-	enumerate_ports();
-	printf("X=%d, Y=%d, Z=%d, R=%d, U=%d, V=%d, povX=%d, povY=%d\n", Joystick::X, Joystick::Y, 
-		Joystick::Z, Joystick::R, Joystick::U, Joystick::V, Joystick::PovX, Joystick::PovY);
 
 	while(window.isOpen()){
 		Event event;
@@ -42,10 +29,11 @@ int main(){
 			}
 		}
 
-		// need comms
-		robot.periodic(in, out);
-		gui.update(window);
+		comms.read();
+		robot.periodic(comms.in, comms.out);
+		comms.write();
 
+		gui.update(window);
 		window.clear(Color(24,24,24));
 		window.draw(gui);
 		window.display();
