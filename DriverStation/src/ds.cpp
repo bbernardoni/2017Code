@@ -27,6 +27,9 @@ int main(){
 				View view = View(FloatRect(0.0f, 0.0f, (float)size.x, (float)size.y));
 				window.setView(view);
 			}
+			if(event.type == Event::MouseWheelScrolled){
+				gui.scroll(event.mouseWheelScroll);
+			}
 		}
 
 		comms.read();

@@ -12,6 +12,7 @@ extern AppRes* appRes;
 class Console: public GElem {
 public:
 	Console();
+	void scroll(Event::MouseWheelScrollEvent event);
 
 private:
 	RenderTexture rt;
