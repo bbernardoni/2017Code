@@ -76,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ds.cpp" />
+    <ClCompile Include="..\src\gui\console.cpp" />
     <ClCompile Include="..\src\gui\gElem.cpp" />
     <ClCompile Include="..\src\gui\gui.cpp" />
     <ClCompile Include="..\src\gui\joyPanel.cpp" />
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\gui\appRes.h" />
+    <ClInclude Include="..\src\gui\console.h" />
     <ClInclude Include="..\src\gui\gElem.h" />
     <ClInclude Include="..\src\gui\gui.h" />
     <ClInclude Include="..\src\gui\joyPanel.h" />

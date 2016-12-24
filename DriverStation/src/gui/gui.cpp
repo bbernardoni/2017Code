@@ -10,6 +10,10 @@ GUI::GUI(){
 	joyPan1->setParLoc(FloatRect(0.25f, 0.0f, 0.25f, 1.0f));
 	joyPan1->setIndex(1);
 	addElem(joyPan1);
+
+	Console* console = new Console();
+	console->setParLoc(FloatRect(0.50f, 0.0f, 0.50f, 1.0f));
+	addElem(console);
 }
 
 void GUI::update(const RenderWindow& window){

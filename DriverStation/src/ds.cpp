@@ -9,7 +9,7 @@ using namespace sf;
 AppRes* appRes;
 
 int main(){
-	RenderWindow window(VideoMode(1000, 632), "Transfarmers Driver Station");
+	RenderWindow window(VideoMode(1100, 632), "Transfarmers Driver Station");
 
 	AppRes res;
 	appRes = &res;
