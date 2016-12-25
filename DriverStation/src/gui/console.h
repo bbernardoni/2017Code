@@ -1,9 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <string>
+#include <Windows.h>
+#include <string.h>
 #include "gElem.h"
-#include "textOut.h"
 #include "appRes.h"
 using namespace sf;
 
@@ -18,4 +18,6 @@ private:
 	RenderTexture rt;
 	Text conTxt;
 	Vector2f oldSize;
+
+	void toClipboard(const String &str);
 };
