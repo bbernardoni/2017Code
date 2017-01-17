@@ -24,3 +24,7 @@ void GUI::update(const RenderWindow& window){
 void GUI::scroll(Event::MouseWheelScrollEvent event){
 	console->scroll(event);
 }
+
+void GUI::print(const String &str){
+	console->print(str);
+}

@@ -1,6 +1,8 @@
 #include "console.h"
 
 Console::Console(){
+	std::cout.rdbuf(cout.rdbuf());
+
 	RectangleShape* back = new RectangleShape();
 	back->setPosition(0.0f, 20.0f);
 	back->setOutlineColor(Color::White);
@@ -31,8 +33,6 @@ Console::Console(){
 	conTxt.setFont(appRes->arial);
 	conTxt.setCharacterSize(16);
 	conTxt.setFillColor(Color::White);
-	conTxt.setString("This    ---- and more text to try and reach the end of the line. Turns out that a lot of text fits. T"
-		"\nis\nsome\ntext\nT\ni\ns\nt\nT\ni\ns\nt\nT\ni\ns\nt\nT\ni\ns\nt\nT\ni\ns\nt\nT\ni\ns\nt\nT\ni\ns\nt\nThe\nEnd");
 	conTxt.setOrigin(-4.0f, -1.0f);
 	//conTxt.setPosition(0.0f, -18.0f);
 }
@@ -42,25 +42,50 @@ void Console::scroll(Event::MouseWheelScrollEvent event){
 	Vector2u size = rt.getSize();
 	FloatRect bounds = conTxt.getLocalBounds();
 	if(event.wheel == Mouse::Wheel::VerticalWheel){
-		conTxt.move(0.0f, event.delta*18.0f);
-		Vector2f pos = conTxt.getPosition();
-		if(event.delta > 0){
-			if(pos.y > 0.0f)
-				conTxt.setPosition(pos.x, 0.0f);
-		} else {
-			if(pos.y < size.y - bounds.height - 9.0f)
-				conTxt.setPosition(pos.x, size.y - bounds.height - 9.0f);
+		float maxHeight = size.y - bounds.height - 9.0f;
+		if(maxHeight < 0.0f){
+			conTxt.move(0.0f, event.delta*18.0f);
+			Vector2f pos = conTxt.getPosition();
+			if(event.delta > 0){
+				if(pos.y > 0.0f)
+					conTxt.setPosition(pos.x, 0.0f);
+			} else {
+				if(pos.y < maxHeight)
+					conTxt.setPosition(pos.x, maxHeight);
+			}
 		}
 	} else {
-		conTxt.move(event.delta*18.0f, 0.0f);
-		Vector2f pos = conTxt.getPosition();
-		if(event.delta > 0){
-			if(pos.x > 0.0f)
-				conTxt.setPosition(0.0f, pos.y);
-		} else {
-			if(pos.x < size.x - bounds.width - 9.0f)
-				conTxt.setPosition(size.x - bounds.width - 9.0f, pos.y);
+		float maxWidth = size.x - bounds.width - 9.0f;
+		if(maxWidth < 0.0f){
+			conTxt.move(event.delta*18.0f, 0.0f);
+			Vector2f pos = conTxt.getPosition();
+			if(event.delta > 0){
+				if(pos.x > 0.0f)
+					conTxt.setPosition(0.0f, pos.y);
+			} else {
+				if(pos.x < maxWidth)
+					conTxt.setPosition(maxWidth, pos.y);
+			}
 		}
+	}
+}
+
+void Console::print(const String &str){
+	conTxt.setString(conTxt.getString() + str);
+	// scroll to bottom
+	Vector2u size = rt.getSize();
+	FloatRect bounds = conTxt.getLocalBounds();
+	float height = size.y - bounds.height - 9.0f;
+	if(height < 0.0f)
+		conTxt.setPosition(0.0f, height);
+}
+
+void Console::update(GElem* parent){
+	GElem::update(parent);
+	string out = cout.str();
+	if(!out.empty()){
+		print(out);
+		cout.str("");
 	}
 }
 

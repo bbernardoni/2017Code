@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "gui/gui.h"
 #include "gui/appRes.h"
 #include "utils/Comms.h"
