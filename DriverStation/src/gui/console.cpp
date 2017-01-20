@@ -35,6 +35,8 @@ Console::Console(){
 	conTxt.setFillColor(Color::White);
 	conTxt.setOrigin(-4.0f, -1.0f);
 	//conTxt.setPosition(0.0f, -18.0f);
+
+	txtIndex = -1;
 }
 
 
@@ -82,11 +84,24 @@ void Console::print(const String &str){
 
 void Console::update(GElem* parent){
 	GElem::update(parent);
+
 	string out = cout.str();
 	if(!out.empty()){
 		print(out);
 		cout.str("");
 	}
+
+	/*if(txtIndex >= 0){
+		if(!Mouse::isButtonPressed(Mouse::Left)){
+
+		}
+	}else if(Mouse::isButtonPressed(Mouse::Left)){
+		txtIndex = getTxtIndex(Mouse::getPosition());
+	}*/
+}
+
+int Console::getTxtIndex(const Vector2i &pos){
+	return 0;
 }
 
 void Console::toClipboard(const String &str){

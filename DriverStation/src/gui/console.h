@@ -24,5 +24,8 @@ private:
 	Text conTxt;
 	Vector2f oldSize;
 
+	int txtIndex;
+
+	int getTxtIndex(const Vector2i &pos);
 	void toClipboard(const String &str);
 };
