@@ -1,5 +1,8 @@
 #pragma once
 
+#define BAUD_RATE	115200
+#define TIMEOUT		500
+
 #include "../robot/RobotIO.h"
 #include <serial/serial.h>
 #include <iostream>
@@ -9,11 +12,16 @@ class Comms {
 public:
 	Comms();
 
-	void read();
-	void write();
+	bool read();
+	bool write();
+
+	bool maintainConnection();
 
 	RobotIn in;
 	RobotOut out;
 
 private:
+	Serial* serial;
+
+	void enumerate_ports();
 };

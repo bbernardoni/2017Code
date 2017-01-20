@@ -11,10 +11,7 @@ public:
 	GUI();
 	
 	void update(const RenderWindow& window);
-	void scroll(Event::MouseWheelScrollEvent event);
-	void print(const String &str);
 
 private:
 	using GElem::update;
-	Console* console;
 };

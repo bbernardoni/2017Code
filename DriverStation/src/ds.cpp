@@ -10,7 +10,7 @@ using namespace sf;
 AppRes* appRes;
 
 int main(){
-	RenderWindow window(VideoMode(1100, 632), "Transfarmers Driver Station");
+	RenderWindow window(VideoMode(600, 632), "Transfarmers Driver Station");
 
 	AppRes res;
 	appRes = &res;
@@ -28,14 +28,14 @@ int main(){
 				View view = View(FloatRect(0.0f, 0.0f, (float)size.x, (float)size.y));
 				window.setView(view);
 			}
-			if(event.type == Event::MouseWheelScrolled){
-				gui.scroll(event.mouseWheelScroll);
-			}
 		}
 
-		comms.read();
-		robot.periodic(comms.in, comms.out);
-		comms.write();
+		if(comms.maintainConnection()){
+			/*if(comms.read()){
+				robot.periodic(comms.in, comms.out);
+				comms.write();
+			}*/
+		}
 
 		gui.update(window);
 		window.clear(Color(24,24,24));
