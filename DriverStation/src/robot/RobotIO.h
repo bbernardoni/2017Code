@@ -2,6 +2,10 @@
 
 struct RobotIn{
 	float gyroAngle;
+
+	RobotIn() :
+		gyroAngle(0.0f)
+	{}
 };
 
 struct RobotOut{
@@ -10,5 +14,13 @@ struct RobotOut{
 	char driveFR;
 	char driveBR;
 	bool omni;
+
+	RobotOut() :
+		driveFL(90),
+		driveBL(90),
+		driveFR(90),
+		driveBR(90),
+		omni(false)
+	{}
 };
 
