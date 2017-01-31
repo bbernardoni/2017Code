@@ -49,10 +49,15 @@ void Comm::update() {
   *tmp = _in_struct->gyroAngle;
   buf[5] = _crc8(&buf[1], 4);
   Serial.write(buf, 8);
+  Serial.write(buf, 8);
+//  for (int i = 0; i < 8; i++)
+//    Serial.print(buf[i], HEX);
+//  Serial.println(_in_struct->gyroAngle);
 }
 
-bool is_still_on() {
-  
+bool Comm::is_still_on() {
+  // TODO: add implementation
+  return true;
 }
 
 Comm::~Comm() {
