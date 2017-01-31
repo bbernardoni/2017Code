@@ -17,6 +17,7 @@ int main(){
 	GUI gui;
 	Comms comms;
 	Robot robot;
+    comms.begin();
 
 	while(window.isOpen()){
 		Event event;
@@ -30,11 +31,12 @@ int main(){
 			}
 		}
 
-		if(comms.maintainConnection()){
+		if(comms.checkserial()){
 			/*if(comms.read()){
 				robot.periodic(comms.in, comms.out);
 				comms.write();
 			}*/
+            comms.read();
 		}
 
 		gui.update(window);
