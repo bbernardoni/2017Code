@@ -1,4 +1,5 @@
 #include "RobotIO.h"
+#include "Comm.h"
 #include <Servo.h>
 #include <SPI.h>
 
@@ -13,7 +14,9 @@ Servo driveBL;
 Servo driveFR;
 Servo driveBR;
 int jumpPin;
-  
+
+Comm comm(50, 9600, &in, &out);
+
 /*
  * TODO
  * timeout code: stop motors if communication is lost
@@ -39,11 +42,11 @@ void setup() {
   lastGyroRead = 0;
   gyroOffset = 0.0;*/
 
+  comm.begin();
 }
 
 void loop() {
   // Get Robot input values and assign then to RobotIn
-  in.gyroAngle = 0.0; // TODO assign real value
 
   // Send inputs to PC through serial
   // TODO
@@ -52,9 +55,17 @@ void loop() {
   // TODO
 
   // Write RobotOut values to outputs
-  driveFL.write(out.driveFL);
-  driveBL.write(out.driveBL);
-  driveFR.write(out.driveFR);
-  driveBR.write(out.driveBR);
-  digitalWrite(jumpPin, out.omni);
+//  driveFL.write(out.driveFL);
+//  driveBL.write(out.driveBL);
+//  driveFR.write(out.driveFR);
+//  driveBR.write(out.driveBR);
+//  digitalWrite(jumpPin, out.omni);
+//  delay();
+  unsigned char temp[4];
+  temp[0] = out.driveFL;
+  temp[1] = out.driveBL;
+  temp[2] = out.driveFR;
+  temp[3] = out.driveBR;
+  float * tmp = (float *) temp;
+  in.gyroAngle = *tmp;
 }
