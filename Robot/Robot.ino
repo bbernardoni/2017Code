@@ -1,4 +1,5 @@
 #include "RobotIO.h"
+#include "Comm.h"
 #include <Servo.h>
 #include <SPI.h>
 
@@ -13,6 +14,8 @@ Servo driveBL;
 Servo driveFR;
 Servo driveBR;
 int jumpPin;
+
+Comm comm(50, 9600, &in, &out);
 
 // Gyro globals
 unsigned long lastGyroRead;
@@ -76,6 +79,8 @@ void setup() {
   gyroSpeed = 0;
   gyroAngle = 0.0;
   gyroOffset = 0.0;
+
+  comm.begin();
 }
 
 void loop() {
@@ -94,4 +99,5 @@ void loop() {
   driveFR.write(out.driveFR);
   driveBR.write(out.driveBR);
   digitalWrite(jumpPin, out.omni);
+  delay(50);
 }
