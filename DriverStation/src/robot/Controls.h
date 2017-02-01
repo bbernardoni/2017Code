@@ -34,6 +34,8 @@
 #define CTRL_TRANS_X            ( DB_AXIS(0, LX))
 #define CTRL_TRANS_Y            (-DB_AXIS(0, LY))
 #define CTRL_ROT                ( DB_AXIS(0, RX))
+#define CTRL_TANK_LEFT          (-DB_AXIS(0, LY))
+#define CTRL_TANK_RIGHT         (-DB_AXIS(0, RY))
 
 #define CTRL_GYRO_RESET         (GET_BUTTON(0, A_BUT))
 #define CTRL_GYRO_ROT_CCW       (GET_BUTTON(0, LB))
