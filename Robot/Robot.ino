@@ -15,7 +15,7 @@ Servo driveFR;
 Servo driveBR;
 int jumpPin;
 
-Comm comm(50, 9600, &in, &out);
+Comm comm(9600, &in, &out);
 
 // Gyro globals
 unsigned long lastGyroRead;
@@ -87,11 +87,8 @@ void loop() {
   // Get Robot input values and assign then to RobotIn
   in.gyroAngle = getGyroAngle();
 
-  // Send inputs to PC through serial
-  // TODO
-
-  // Read outputs from PC through serial
-  // TODO
+  // Update IO structs
+  comm.update();
 
   // Write RobotOut values to outputs
   driveFL.write(out.driveFL);

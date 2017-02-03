@@ -2,77 +2,44 @@
 
 #define BUF_SIZE 2048
 
-DWORD WINAPI MyControllingFunction(LPVOID pParam) {
-    Comms * myObject = (Comms *)pParam;
-    if (myObject == NULL)
-        return -1;
-    printf("new thread started");
-    while (!myObject->isEnded()) {
-        myObject->write();
-        Sleep(50);
-        myObject->read();
-    }
-    return 0;
-}
-
 Comms::Comms(){
 	enumerate_ports();
 
 	serial = NULL;
-	if(!maintainConnection()){
-		std::cout << "Could not connect to serial device\n";
-	}
-    ended = false;
-    mutex = CreateMutex(
-                        NULL,              // default security attributes
-                        FALSE,             // initially not owned
-                        NULL);
+	
     in.gyroAngle = 0.0f;
 }
 
 void Comms::begin() {
-    DWORD myThreadID;
-    threadHandle = CreateThread(0, 0, MyControllingFunction, this, 0, &myThreadID);
+	if(!maintainConnection()){
+		std::cout << "Could not connect to serial device\n";
+	}
 }
 
 void Comms::end() {
-    WaitForSingleObject(mutex, INFINITE);
-    ended = true;
-    ReleaseMutex(mutex);
+	serial = NULL;
 }
 
 bool Comms::isEnded() {
-    WaitForSingleObject(mutex, INFINITE);
-    bool end = ended;
-    ReleaseMutex(mutex);
-    return end;
+    return serial == NULL;
 }
 
-RobotIn Comms::getRobotIn() {
-    WaitForSingleObject(mutex, INFINITE);
-    RobotIn lin = in;
-    ReleaseMutex(mutex);
-    return lin;
+const RobotIn& Comms::getRobotIn() {
+    return in;
 }
 
-RobotOut Comms::getRobotOut() {
-    WaitForSingleObject(mutex, INFINITE);
-    RobotOut lout = out;
-    ReleaseMutex(mutex);
-    return lout;
+RobotOut& Comms::getRobotOut() {
+    return out;
 }
 
 void Comms::setRobotOut(const RobotOut &newStruct) {
-    WaitForSingleObject(mutex, INFINITE);
     out = newStruct;
-    ReleaseMutex(mutex);
 }
 
 
 bool Comms::read(){
     if (serial == NULL)
         return false;
-    WaitForSingleObject(mutex, INFINITE);
     uint8_t buffer[BUF_SIZE];
     size_t size = serial->available();
     size = size > BUF_SIZE ? BUF_SIZE : size;
@@ -93,16 +60,12 @@ bool Comms::read(){
         serial->read(buffer, size);
         size = serial->available();
     }
-    ReleaseMutex(mutex);
 	return true;
 }
 
 bool Comms::write(){
-    WaitForSingleObject(mutex, INFINITE);
-    if (serial == NULL) {
-        maintainConnection();
+    if (serial == NULL)
         return false;
-    }
     unsigned char packet[8] = { 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xdd };
     packet[1] = out.driveFL;
     packet[2] = out.driveBL;
@@ -116,30 +79,17 @@ bool Comms::write(){
 		serial->close();
 		serial = NULL;
 		std::cout << "Connection lost during write\n";
-        maintainConnection();
-        ReleaseMutex(mutex);
         return false;
 	}
-    ReleaseMutex(mutex);
 	return true;
-}
-
-bool Comms::checkserial() {
-    WaitForSingleObject(mutex, INFINITE);
-    if (serial != NULL) {
-        bool status = serial->isOpen();
-        ReleaseMutex(mutex);
-        return status;
-    }
-    ReleaseMutex(mutex);
-    return false;
 }
 
 bool Comms::maintainConnection(){
 	if(serial == NULL){
 		std::vector<PortInfo> devices_found = list_ports();
 		for(std::vector<PortInfo>::iterator it = devices_found.begin(); it != devices_found.end(); ++it){
-			if(it->hardware_id.find("2341") != std::string::npos){ // Vendor ID
+			// our serial communicator has a vid of 10C4
+			if(it->hardware_id.find("10C4") != std::string::npos){ // Vendor ID
 				std::cout << "Trying to connect to port " << it->port << ": " << it->description << std::endl;
 				serial = new Serial(it->port, BAUD_RATE, serial::Timeout::simpleTimeout(TIMEOUT));
 

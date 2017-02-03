@@ -18,21 +18,19 @@
 class Comm {
 private:
   int _baud_rate;
-  int _timer_rate;
   RobotIn *_in_struct;
   RobotOut *_out_struct;
   unsigned char read_buf[64];
   
 public:
-  Comm(int timer_rate, int baud_rate, RobotIn *in_struct, RobotOut *out_struct) : _timer_rate(timer_rate), 
-                                                                                  _baud_rate(baud_rate), 
-                                                                                  _in_struct(in_struct), 
-                                                                                  _out_struct(out_struct){}
+  Comm(int baud_rate, RobotIn *in_struct, RobotOut *out_struct) : _baud_rate(baud_rate), 
+                                                                  _in_struct(in_struct), 
+                                                                  _out_struct(out_struct){}
   void begin();
   
   /**
-   * Basically, read from serial, update the internal servo values,
-   * and write out to PC through serial.
+   * Basically, write out to PC through serial,
+   * and read from serial, update the internal servo values.
    */
   void update();
 
