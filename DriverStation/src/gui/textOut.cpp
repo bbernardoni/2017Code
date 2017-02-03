@@ -63,7 +63,7 @@ void TextOut::update(GElem* parent){
 		break;
 	case pov:
 		float axis = Joystick::getAxisPosition(index, (Joystick::Axis)(joyLoc&0xf));
-		output = std::to_string((joyLoc>>4)? (axis<0.0f): (axis>0.0f));
+		output = std::to_string((joyLoc>>4)? (axis<-0.1f): (axis>0.1f));
 		break;
 	};
 
