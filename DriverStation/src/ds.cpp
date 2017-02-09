@@ -34,7 +34,7 @@ int main(){
 
 		if(comms.maintainConnection()){
 			if(comms.read()){
-				robot.periodic(comms.getRobotIn(), comms.out);
+				robot.periodic(comms.getRobotIn(), comms.getRobotOut());
 				comms.write();
 			}
 		}

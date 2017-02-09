@@ -38,43 +38,41 @@ void Comms::setRobotOut(const RobotOut &newStruct) {
 
 
 bool Comms::read(){
-    if (serial == NULL)
+	if(serial == NULL){
         return false;
+	}
     uint8_t buffer[BUF_SIZE];
     size_t size = serial->available();
-    size = size > BUF_SIZE ? BUF_SIZE : size;
+	size = size > BUF_SIZE ? BUF_SIZE : size;
+	if(size < 16){
+		setOutBuf();
+		serial->write(outBuf, 8);
+		serial->write(outBuf, 8);
+		return false;
+	}
 	serial->read(buffer, size);
-    for (int i = size - 1; i >= 7; i--) {
+	for(int i = size - 1; i >= 7; i--) {
         if (buffer[i] == 0xdd && buffer[i - 1] == 0xee && buffer[i - 7] == 0xff) {
             if (crc8.compute(&buffer[i - 6], 4) == buffer[i - 2]) {
                 float * temp = (float *)&buffer[i - 6];
                 if (*temp < 1000000)
-                    in.gyroAngle = *temp;
+					in.gyroAngle = *temp;
+					std::cout << "gyro angle=" << in.gyroAngle << std::endl;
                 break;
             }
         }
     }
-    size = serial->available();
-    while (size > 0) {
-        size = size > BUF_SIZE ? BUF_SIZE : size;
-        serial->read(buffer, size);
-        size = serial->available();
-    }
+	serial->flushInput();
 	return true;
 }
 
 bool Comms::write(){
     if (serial == NULL)
         return false;
-    unsigned char packet[8] = { 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xdd };
-    packet[1] = out.driveFL;
-    packet[2] = out.driveBL;
-    packet[3] = out.driveFR;
-    packet[4] = out.driveBR;
-    packet[5] = out.omni;
-    packet[6] = crc8.compute(&packet[1], 5);
-    size_t bytesWritten = serial->write(packet, 8);
-    bytesWritten += serial->write(packet, 8);           // write twice. just in case
+	setOutBuf();
+	serial->flushInput();
+	size_t bytesWritten = serial->write(outBuf, 8);
+	bytesWritten += serial->write(outBuf, 8);           // write twice. just in case
 	if(bytesWritten != 16){
 		serial->close();
 		serial = NULL;
@@ -82,6 +80,17 @@ bool Comms::write(){
         return false;
 	}
 	return true;
+}
+
+void Comms::setOutBuf(){
+	outBuf[0] = 0xff;
+	outBuf[1] = out.driveFL;
+	outBuf[2] = out.driveBL;
+	outBuf[3] = out.driveFR;
+	outBuf[4] = out.driveBR;
+	outBuf[5] = out.omni;
+	outBuf[6] = crc8.compute(&outBuf[1], 5);
+	outBuf[7] = 0xdd;
 }
 
 bool Comms::maintainConnection(){
