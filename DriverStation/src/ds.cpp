@@ -10,7 +10,8 @@ using namespace sf;
 AppRes* appRes;
 
 int main(){
-	RenderWindow window(VideoMode(600, 632), "Transfarmers Driver Station");
+	RenderWindow window(VideoMode(600, 588), "Transfarmers Driver Station");
+	window.setFramerateLimit(60);
 
 	AppRes res;
 	appRes = &res;
@@ -31,12 +32,11 @@ int main(){
 			}
 		}
 
-		if(comms.checkserial()){
-			/*if(comms.read()){
-				robot.periodic(comms.in, comms.out);
+		if(comms.maintainConnection()){
+			if(comms.read()){
+				robot.periodic(comms.getRobotIn(), comms.getRobotOut());
 				comms.write();
-			}*/
-            comms.read();
+			}
 		}
 
 		gui.update(window);

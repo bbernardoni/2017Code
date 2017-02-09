@@ -1,6 +1,6 @@
 #pragma once
 
-#define BAUD_RATE	9600
+#define BAUD_RATE	57600
 #define TIMEOUT		500
 
 #include "../robot/RobotIO.h"
@@ -21,21 +21,21 @@ public:
     void begin();
     void end();
 
-    RobotIn getRobotIn();
-    RobotOut getRobotOut();
+    const RobotIn& getRobotIn();
+    RobotOut& getRobotOut();
     void setRobotOut(const RobotOut &newStruct);
 
-    bool checkserial();
+	bool maintainConnection();
     bool isEnded();
 private:
     // private functions should not take lock
 	Serial* serial;
-    HANDLE mutex;
-    HANDLE threadHandle;
     RobotOut out;
     RobotIn in;
     CRC8 crc8;
-    bool ended;
+
+	unsigned char outBuf[8];
+	void setOutBuf();
+
 	void enumerate_ports();
-    bool maintainConnection();
 };
