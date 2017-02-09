@@ -1,8 +1,5 @@
-
 #ifndef COMM_H
 #define COMM_H
-
-#define USE_TIMER   1
 
 #include <stdint.h>
 #include <Arduino.h>
@@ -17,22 +14,24 @@
  */
 class Comm {
 private:
-  int _baud_rate;
   RobotIn *_in_struct;
   RobotOut *_out_struct;
   unsigned char read_buf[64];
+  uint8_t outBuf[8];
+  bool lastReadGood;
   
 public:
-  Comm(int baud_rate, RobotIn *in_struct, RobotOut *out_struct) : _baud_rate(baud_rate), 
-                                                                  _in_struct(in_struct), 
-                                                                  _out_struct(out_struct){}
-  void begin();
+  Comm(RobotIn *in_struct, RobotOut *out_struct) : _in_struct(in_struct), 
+                                                   _out_struct(out_struct){}
+  void begin(long baud_rate);
   
   /**
    * Basically, write out to PC through serial,
    * and read from serial, update the internal servo values.
    */
-  void update();
+  void write();
+  bool read();
+  void setOutBuf();
 
   bool is_still_on();
   ~Comm();
