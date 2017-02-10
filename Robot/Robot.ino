@@ -36,15 +36,20 @@ void setup() {
   digitalWrite(jumpPin, LOW);
 
   comm.begin(BAUD_RATE);
+  Serial.begin(115200);
 }
 
+unsigned long oldTime;
 void loop() {
   // Get Robot input values and assign then to RobotIn
   in.gyroAngle = gyro.getAngle();
 
   // Write inputs to PC
   comm.write();
-  delay(16);
+  unsigned long curTime = micros();
+  Serial.println(curTime - oldTime);
+  oldTime = curTime;
+  delay(10);
 
   // Read output values to IO struct
   if(comm.read()){

@@ -48,8 +48,10 @@ bool Comms::read(){
 		setOutBuf();
 		serial->write(outBuf, 8);
 		serial->write(outBuf, 8);
+		std::cout << "failed size=" << size << std::endl;
 		return false;
 	}
+	std::cout << "size=" << size << std::endl;
 	serial->read(buffer, size);
 	for(int i = size - 1; i >= 7; i--) {
         if (buffer[i] == 0xdd && buffer[i - 1] == 0xee && buffer[i - 7] == 0xff) {
@@ -57,12 +59,15 @@ bool Comms::read(){
                 float * temp = (float *)&buffer[i - 6];
                 if (*temp < 1000000)
 					in.gyroAngle = *temp;
-					std::cout << "gyro angle=" << in.gyroAngle << std::endl;
+					//std::cout << "gyro angle=" << in.gyroAngle << std::endl;
                 break;
             }
         }
     }
-	serial->flushInput();
+	while(size = serial->available()){
+		size = size > BUF_SIZE ? BUF_SIZE : size;
+		serial->read(buffer, size);
+	}
 	return true;
 }
 
@@ -70,7 +75,12 @@ bool Comms::write(){
     if (serial == NULL)
         return false;
 	setOutBuf();
-	serial->flushInput();
+	size_t size;
+	uint8_t buffer[BUF_SIZE];
+	while(size = serial->available()){
+		size = size > BUF_SIZE ? BUF_SIZE : size;
+		serial->read(buffer, size);
+	}
 	size_t bytesWritten = serial->write(outBuf, 8);
 	bytesWritten += serial->write(outBuf, 8);           // write twice. just in case
 	if(bytesWritten != 16){

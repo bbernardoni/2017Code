@@ -2,18 +2,18 @@
 #include <util/crc16.h>
 
 void Comm::begin(long baud_rate) {
-  Serial.begin(baud_rate);
+  Serial1.begin(baud_rate);
   lastReadGood = true;
 }
 
 bool Comm::read(){
-  int bytes_avail = Serial.available();
+  int bytes_avail = Serial1.available();
   if(bytes_avail < 16){
     lastReadGood = false;
     return false;
   }
   
-  Serial.readBytes(read_buf, bytes_avail);
+  Serial1.readBytes(read_buf, bytes_avail);
   for (int i = bytes_avail - 1; i >= 7; i --) {   // search for last complete packet
     if (read_buf[i] == 0xdd && read_buf[i - 7] == 0xff) {   // a complete packet
       uint8_t crc = _crc8(&read_buf[i - 6], 5);
@@ -31,8 +31,8 @@ bool Comm::read(){
   }
   
 //  for (int i = 0; i < 8; i++)
-//    Serial.print(buf[i], HEX);
-//  Serial.println(_in_struct->gyroAngle);
+//    Serial1.print(buf[i], HEX);
+//  Serial1.println(_in_struct->gyroAngle);
   lastReadGood = true;
   return true;
 }
@@ -40,12 +40,12 @@ bool Comm::read(){
 void Comm::write(){
   setOutBuf();
   if(lastReadGood){
-    while(Serial.available() > 0) {
-      char t = Serial.read();
+    while(Serial1.available() > 0) {
+      char t = Serial1.read();
     }
   }
-  Serial.write(outBuf, 8);
-  Serial.write(outBuf, 8);
+  Serial1.write(outBuf, 8);
+  Serial1.write(outBuf, 8);
 }
 
 void Comm::setOutBuf(){
