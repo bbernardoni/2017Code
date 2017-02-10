@@ -72,13 +72,13 @@ void Drive::fieldCentricControl(RobotOut& rOut, float transX, float transY, floa
 }
 
 void Drive::robotCentricControl(RobotOut& rOut, float transX, float transY, float rot){
-	float bl = transY - transX + rot;
-	float br = transY + transX + rot;
-	float fl = -transY + transX + rot;
-	float fr = -transY - transX + rot;
+	float backLeft = transY - transX + rot;
+	float backRight = transY + transX + rot;
+	float frontLeft = -transY + transX + rot;
+	float frontRight = -transY - transX + rot;
 
-	rOut.driveBL = SOut(Trunc(bl));
-	rOut.driveBR = SOut(Trunc(br));
-	rOut.driveFL = SOut(Trunc(fl));
-	rOut.driveFR = SOut(Trunc(fr));
+	rOut.driveBL = SOut(Trunc(backLeft));
+	rOut.driveBR = SOut(Trunc(backRight));
+	rOut.driveFL = SOut(Trunc(frontLeft));
+	rOut.driveFR = SOut(Trunc(frontRight));
 }
