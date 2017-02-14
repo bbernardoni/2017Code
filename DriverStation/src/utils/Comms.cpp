@@ -48,10 +48,10 @@ bool Comms::read(){
 		setOutBuf();
 		serial->write(outBuf, 8);
 		serial->write(outBuf, 8);
-		std::cout << "failed size=" << size << std::endl;
+		//std::cout << "failed size=" << size << std::endl;
 		return false;
 	}
-	std::cout << "size=" << size << std::endl;
+	//std::cout << "size=" << size << std::endl;
 	serial->read(buffer, size);
 	for(int i = size - 1; i >= 7; i--) {
         if (buffer[i] == 0xdd && buffer[i - 1] == 0xee && buffer[i - 7] == 0xff) {
