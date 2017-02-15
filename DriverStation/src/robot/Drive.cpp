@@ -5,23 +5,42 @@ Drive::Drive(DriveMode _mode){
 }
 
 void Drive::periodic(const RobotIn& rIn, RobotOut& rOut){
+	bool isPressed = CTRL_TOGGLE_MODE;
+	if(isPressed && !modeBut){
+		mode = (DriveMode)((mode + 1) % numModes);
+		std::cout << "Mode changed to " << mode << std::endl;
+	}
+	modeBut = isPressed;
 	switch(mode){
 	case fieldCentric: {
 		if(CTRL_GYRO_RESET){
 			gyroOffset = rIn.gyroAngle;
 		}
-		if(CTRL_GYRO_ROT_CCW){ // need to latch mechanism
+		isPressed = CTRL_GYRO_ROT_CCW;
+		if(isPressed && !gyroCCWBut){
 			gyroOffset += PI / 2.0f;
 		}
-		if(CTRL_GYRO_ROT_CW){
+		gyroCCWBut = isPressed;
+		isPressed = CTRL_GYRO_ROT_CW;
+		if(isPressed && !gyroCWBut){
 			gyroOffset -= PI / 2.0f;
 		}
+		gyroCWBut = isPressed;
 
 		float gyroAngle = PMod(rIn.gyroAngle - gyroOffset, PI*2.0f);
 		fieldCentricControl(rOut, CTRL_TRANS_X, CTRL_TRANS_Y, CTRL_ROT, gyroAngle);
+		rOut.omni = true;
 		break; }
 	case robotCentric:
 		robotCentricControl(rOut, CTRL_TRANS_X, CTRL_TRANS_Y, CTRL_ROT);
+		rOut.omni = true;
+		break;
+	case tank:
+		rOut.driveBL = SOut(CTRL_TANK_LEFT);
+		rOut.driveFL = SOut(CTRL_TANK_LEFT);
+		rOut.driveBR = Rev(SOut(CTRL_TANK_RIGHT));
+		rOut.driveFR = Rev(SOut(CTRL_TANK_RIGHT));
+		rOut.omni = false;
 		break;
 	}
 }
@@ -53,13 +72,13 @@ void Drive::fieldCentricControl(RobotOut& rOut, float transX, float transY, floa
 }
 
 void Drive::robotCentricControl(RobotOut& rOut, float transX, float transY, float rot){
-	float bl = transY - transX + rot;
-	float br = transY + transX + rot;
-	float fl = -transY + transX + rot;
-	float fr = -transY - transX + rot;
+	float backLeft   = transY + transX + rot;
+	float backRight  = transY - transX - rot;
+	float frontLeft  = transY - transX + rot;
+	float frontRight = transY + transX - rot;
 
-	rOut.driveBL = SOut(Trunc(bl));
-	rOut.driveBR = SOut(Trunc(br));
-	rOut.driveFL = SOut(Trunc(fl));
-	rOut.driveFR = SOut(Trunc(fr));
+	rOut.driveBL = SOut(Trunc(backLeft));
+	rOut.driveBR = Rev(SOut(Trunc(backRight)));
+	rOut.driveFL = SOut(Trunc(frontLeft));
+	rOut.driveFR = Rev(SOut(Trunc(frontRight)));
 }

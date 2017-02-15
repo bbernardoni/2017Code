@@ -5,7 +5,8 @@ using namespace sf;
 
 struct AppRes {
 	AppRes(){
-		arial.loadFromFile("../../res/arial.ttf");
+		if(!arial.loadFromFile("arial.ttf"))
+			arial.loadFromFile("../../res/arial.ttf");
 	};
 
 	Font arial;

@@ -63,7 +63,7 @@ JoyPanel::JoyPanel():
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 88.0f);
 	txtOut->setLabel("Left Click");
-	txtOut->setJoyLoc(9, TextOut::CtlType::button);
+	txtOut->setJoyLoc(8, TextOut::CtlType::button);
 	addElem(txtOut);
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 110.0f);
@@ -73,12 +73,12 @@ JoyPanel::JoyPanel():
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 132.0f);
 	txtOut->setLabel("Right Y");
-	txtOut->setJoyLoc(5, TextOut::CtlType::axis);
+	txtOut->setJoyLoc(3, TextOut::CtlType::axis);
 	addElem(txtOut);
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 154.0f);
 	txtOut->setLabel("Right Click");
-	txtOut->setJoyLoc(10, TextOut::CtlType::button);
+	txtOut->setJoyLoc(9, TextOut::CtlType::button);
 	addElem(txtOut);
 
 	// face buttons
@@ -121,12 +121,12 @@ JoyPanel::JoyPanel():
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 316.0f);
 	txtOut->setLabel("Up");
-	txtOut->setJoyLoc(0x17, TextOut::CtlType::pov);
+	txtOut->setJoyLoc(0x07, TextOut::CtlType::pov);
 	addElem(txtOut);
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 338.0f);
 	txtOut->setLabel("Down");
-	txtOut->setJoyLoc(0x07, TextOut::CtlType::pov);
+	txtOut->setJoyLoc(0x17, TextOut::CtlType::pov);
 	addElem(txtOut);
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 360.0f);
@@ -154,18 +154,13 @@ JoyPanel::JoyPanel():
 	addElem(txtOut);
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 452.0f);
-	txtOut->setLabel("Left Trigger");
-	txtOut->setJoyLoc(2, TextOut::CtlType::axis);
-	addElem(txtOut);
-	txtOut = new TextOut();
-	txtOut->setPosition(0.0f, 474.0f);
 	txtOut->setLabel("Right Bumper");
 	txtOut->setJoyLoc(5, TextOut::CtlType::button);
 	addElem(txtOut);
 	txtOut = new TextOut();
-	txtOut->setPosition(0.0f, 496.0f);
-	txtOut->setLabel("Right Trigger");
-	txtOut->setJoyLoc(3, TextOut::CtlType::axis);
+	txtOut->setPosition(0.0f, 474.0f);
+	txtOut->setLabel("Triggers");
+	txtOut->setJoyLoc(2, TextOut::CtlType::axis);
 	addElem(txtOut);
 	
 	// control buttons
@@ -174,20 +169,21 @@ JoyPanel::JoyPanel():
 	label->setCharacterSize(16);
 	label->setFillColor(Color::White);
 	label->setString("Control Buttons");
-	label->setPosition(5.0f, 522.0f);
+	label->setPosition(5.0f, 500.0f);
 	addElem(label, NULL);
 	txtOut = new TextOut();
-	txtOut->setPosition(0.0f, 544.0f);
+	txtOut->setPosition(0.0f, 522.0f);
 	txtOut->setLabel("Start");
 	txtOut->setJoyLoc(7, TextOut::CtlType::button);
 	addElem(txtOut);
+	/* not available on windows
 	txtOut = new TextOut();
 	txtOut->setPosition(0.0f, 566.0f);
 	txtOut->setLabel("Guide");
 	txtOut->setJoyLoc(8, TextOut::CtlType::button);
-	addElem(txtOut);
+	addElem(txtOut);*/
 	txtOut = new TextOut();
-	txtOut->setPosition(0.0f, 588.0f);
+	txtOut->setPosition(0.0f, 544.0f);
 	txtOut->setLabel("Back");
 	txtOut->setJoyLoc(6, TextOut::CtlType::button);
 	addElem(txtOut);
