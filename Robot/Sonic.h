@@ -5,7 +5,7 @@
 class Sonic {
 
 public:
-  // Returns the distance to the nearest object the sensor can sense, in centimeters
+  // Returns the distance to the nearest object the sensor can sense, in inches
   int sonarRead(const int sonicOutputPin, const int sonicInputPin);
   
 };
