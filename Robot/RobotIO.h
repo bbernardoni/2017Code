@@ -1,15 +1,23 @@
 #pragma once
 #include <stdint.h>
 
-struct RobotIn{
+struct RobotIn {
 	float gyroAngle;
+  uint8_t sonicDistanceF;
+  uint8_t sonicDistanceL;
+  uint8_t sonicDistanceR;
+  uint8_t sonicDistanceB;
 
 	RobotIn() :
-		gyroAngle(0.0f)
+		gyroAngle(0.0f),
+    sonicDistanceF(0),
+    sonicDistanceL(0),
+    sonicDistanceR(0),
+    sonicDistanceB(0)
 	{}
 };
 
-struct RobotOut{
+struct RobotOut {
 	uint8_t driveFL;
 	uint8_t driveBL;
 	uint8_t driveFR;

@@ -6,6 +6,7 @@
 #include <Servo.h>
 #include <SPI.h>
 #include "Gyro.h"
+#include "Sonic.h"
 
 // Robot input and output structs
 RobotIn in;
