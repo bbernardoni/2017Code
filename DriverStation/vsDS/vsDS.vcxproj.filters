@@ -26,6 +26,9 @@
     <ClCompile Include="..\src\gui\console.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="Tunnel.cpp">
+      <Filter>robot</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\gui\textOut.h">
@@ -63,6 +66,9 @@
     </ClInclude>
     <ClInclude Include="..\src\gui\console.h">
       <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Tunnel.h">
+      <Filter>robot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
