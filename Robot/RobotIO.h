@@ -10,10 +10,10 @@ struct RobotIn{
 };
 
 struct RobotOut{
-	int8_t driveFL;
-	int8_t driveBL;
-	int8_t driveFR;
-	int8_t driveBR;
+	uint8_t driveFL;
+	uint8_t driveBL;
+	uint8_t driveFR;
+	uint8_t driveBR;
 	int8_t omni;
 
 	RobotOut() :

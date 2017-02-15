@@ -54,6 +54,11 @@ void loop() {
     driveFR.write(out.driveFR);
     driveBR.write(out.driveBR);
     digitalWrite(jumpPin, out.omni);
+  }else if(comm.getFailures() > 30){
+    driveFL.write(90);
+    driveBL.write(90);
+    driveFR.write(90);
+    driveBR.write(90);
   }
 }
 

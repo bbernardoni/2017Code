@@ -38,8 +38,8 @@ void Drive::periodic(const RobotIn& rIn, RobotOut& rOut){
 	case tank:
 		rOut.driveBL = SOut(CTRL_TANK_LEFT);
 		rOut.driveFL = SOut(CTRL_TANK_LEFT);
-		rOut.driveBR = SOut(CTRL_TANK_RIGHT);
-		rOut.driveFR = SOut(CTRL_TANK_RIGHT);
+		rOut.driveBR = Rev(SOut(CTRL_TANK_RIGHT));
+		rOut.driveFR = Rev(SOut(CTRL_TANK_RIGHT));
 		rOut.omni = false;
 		break;
 	}
@@ -72,13 +72,13 @@ void Drive::fieldCentricControl(RobotOut& rOut, float transX, float transY, floa
 }
 
 void Drive::robotCentricControl(RobotOut& rOut, float transX, float transY, float rot){
-	float backLeft = transY - transX + rot;
-	float backRight = transY + transX + rot;
-	float frontLeft = -transY + transX + rot;
-	float frontRight = -transY - transX + rot;
+	float backLeft   = transY + transX + rot;
+	float backRight  = transY - transX - rot;
+	float frontLeft  = transY - transX + rot;
+	float frontRight = transY + transX - rot;
 
 	rOut.driveBL = SOut(Trunc(backLeft));
-	rOut.driveBR = SOut(Trunc(backRight));
+	rOut.driveBR = Rev(SOut(Trunc(backRight)));
 	rOut.driveFL = SOut(Trunc(frontLeft));
-	rOut.driveFR = SOut(Trunc(frontRight));
+	rOut.driveFR = Rev(SOut(Trunc(frontRight)));
 }

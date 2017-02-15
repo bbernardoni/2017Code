@@ -2,18 +2,20 @@
 #include <util/crc16.h>
 
 void Comm::begin(long baud_rate) {
-  Serial.begin(baud_rate);
-  lastReadGood = true;
+  Serial2.begin(baud_rate);
+  failures = 0;
 }
 
 bool Comm::read(){
-  int bytes_avail = Serial.available();
+  int bytes_avail = Serial2.available();
+  //Serial.print("bytes_avail = ");
+  //Serial.println(bytes_avail);
   if(bytes_avail < 16){
-    lastReadGood = false;
+    failures++;
     return false;
   }
   
-  Serial.readBytes(read_buf, bytes_avail);
+  Serial2.readBytes(read_buf, bytes_avail);
   for (int i = bytes_avail - 1; i >= 7; i --) {   // search for last complete packet
     if (read_buf[i] == 0xdd && read_buf[i - 7] == 0xff) {   // a complete packet
       uint8_t crc = _crc8(&read_buf[i - 6], 5);
@@ -21,6 +23,7 @@ bool Comm::read(){
         i -= 8;
         continue;
       }
+      //Serial.println("Read successful");
       _out_struct->driveFL = read_buf[i - 6];     //TODO: potential race condition. No synchronization primitives
       _out_struct->driveBL = read_buf[i - 5];
       _out_struct->driveFR = read_buf[i - 4];
@@ -31,21 +34,21 @@ bool Comm::read(){
   }
   
 //  for (int i = 0; i < 8; i++)
-//    Serial.print(buf[i], HEX);
-//  Serial.println(_in_struct->gyroAngle);
-  lastReadGood = true;
+//    Serial2.print(buf[i], HEX);
+//  Serial2.println(_in_struct->gyroAngle);
+  failures = 0;
   return true;
 }
 
 void Comm::write(){
   setOutBuf();
-  if(lastReadGood){
-    while(Serial.available() > 0) {
-      char t = Serial.read();
+  if(failures == 0){
+    while(Serial2.available() > 0) {
+      char t = Serial2.read();
     }
   }
-  Serial.write(outBuf, 8);
-  Serial.write(outBuf, 8);
+  Serial2.write(outBuf, 8);
+  Serial2.write(outBuf, 8);
 }
 
 void Comm::setOutBuf(){

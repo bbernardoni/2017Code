@@ -18,11 +18,12 @@ private:
   RobotOut *_out_struct;
   unsigned char read_buf[64];
   uint8_t outBuf[8];
-  bool lastReadGood;
+  long failures;
   
 public:
   Comm(RobotIn *in_struct, RobotOut *out_struct) : _in_struct(in_struct), 
                                                    _out_struct(out_struct){}
+  // time out is measured in frames
   void begin(long baud_rate);
   
   /**
@@ -34,6 +35,7 @@ public:
   void setOutBuf();
 
   bool is_still_on();
+  long getFailures() { return failures; }
   ~Comm();
 
 private:
