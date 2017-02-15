@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -88,6 +88,7 @@
     <ClCompile Include="..\src\robot\Drive.cpp" />
     <ClCompile Include="..\src\robot\Robot.cpp" />
     <ClCompile Include="..\src\utils\Comms.cpp" />
+    <ClCompile Include="Tunnel.cpp" />
     <ClCompile Include="..\src\utils\crc8.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +104,7 @@
     <ClInclude Include="..\src\robot\Robot.h" />
     <ClInclude Include="..\src\robot\RobotIO.h" />
     <ClInclude Include="..\src\utils\Comms.h" />
+    <ClInclude Include="Tunnel.h" />
     <ClInclude Include="..\src\utils\crc8.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
