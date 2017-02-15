@@ -1,21 +1,24 @@
+#include "Config.h"
+
 #include "RobotIO.h"
 #include "Comm.h"
+
 #include <Servo.h>
 #include <SPI.h>
+#include "Gyro.h"
 
 // Robot input and output structs
 RobotIn in;
 RobotOut out;
+Comm comm(&in, &out);
 
 // Drivetrain IO
-int gyroPin;
+Gyro gyro(GYRO_PIN);
 Servo driveFL;
 Servo driveBL;
 Servo driveFR;
 Servo driveBR;
-int jumpPin;
-
-Comm comm(50, 9600, &in, &out);
+int jumpPin = JUMP_PIN;
 
 /*
  * TODO
@@ -23,49 +26,39 @@ Comm comm(50, 9600, &in, &out);
  */
 
 void setup() {
-  // init Drivetrain IO
-  gyroPin = 6;
-  driveFL.attach(1);
-  driveBL.attach(2);
-  driveFR.attach(3);
-  driveBR.attach(4);
-  jumpPin = 5;
+  // init Drivetrain IO (gyro below)
+  gyro.setup();
+  driveFL.attach(DRIVE_FL_PIN);
+  driveBL.attach(DRIVE_BL_PIN);
+  driveFR.attach(DRIVE_FR_PIN);
+  driveBR.attach(DRIVE_BR_PIN);
   pinMode(jumpPin, OUTPUT);
   digitalWrite(jumpPin, LOW);
-  /* TODO gyro stuff, ignore for now
-  SPI.begin();
-  pinMode(gyroPin, OUTPUT);
-  digitalWrite(gyroPin, HIGH);
-  SPI.setBitOrder(MSBFIRST);
-  SPI.setClockDivider(SPI_CLOCK_DIV16); 
-  SPI.setDataMode(SPI_MODE0);
-  lastGyroRead = 0;
-  gyroOffset = 0.0;*/
 
-  comm.begin();
+  comm.begin(BAUD_RATE);
 }
 
 void loop() {
   // Get Robot input values and assign then to RobotIn
+  in.gyroAngle = gyro.getAngle();
 
-  // Send inputs to PC through serial
-  // TODO
+  // Write inputs to PC
+  comm.write();
+  delay(16);
 
-  // Read outputs from PC through serial
-  // TODO
-
-  // Write RobotOut values to outputs
-//  driveFL.write(out.driveFL);
-//  driveBL.write(out.driveBL);
-//  driveFR.write(out.driveFR);
-//  driveBR.write(out.driveBR);
-//  digitalWrite(jumpPin, out.omni);
-//  delay();
-  unsigned char temp[4];
-  temp[0] = out.driveFL;
-  temp[1] = out.driveBL;
-  temp[2] = out.driveFR;
-  temp[3] = out.driveBR;
-  float * tmp = (float *) temp;
-  in.gyroAngle = *tmp;
+  // Read output values to IO struct
+  if(comm.read()){
+    // Write RobotOut values to outputs
+    driveFL.write(out.driveFL);
+    driveBL.write(out.driveBL);
+    driveFR.write(out.driveFR);
+    driveBR.write(out.driveBR);
+    digitalWrite(jumpPin, out.omni);
+  }else if(comm.getFailures() > 30){
+    driveFL.write(90);
+    driveBL.write(90);
+    driveFR.write(90);
+    driveBR.write(90);
+  }
 }
+

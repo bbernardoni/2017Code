@@ -1,3 +1,3 @@
 // Default drive mode
-#define DRIVE_MODE              Drive::robotCentric
+#define DRIVE_MODE              Drive::tank
 

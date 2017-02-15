@@ -2,12 +2,13 @@
 
 #include "RobotIO.h"
 #include "Controls.h"
+#include <iostream>
 #include <cmath>
 #define PI 3.14159265358979323846f
 
 class Drive {
 public:
-	enum DriveMode { fieldCentric, robotCentric };
+	enum DriveMode { fieldCentric, robotCentric, tank, numModes };
     
 	Drive(DriveMode _mode);
 	void periodic(const RobotIn& rIn, RobotOut& rOut);
@@ -31,4 +32,10 @@ private:
 
 	DriveMode mode;
 	float gyroOffset;
+	
+	// button states
+	bool modeBut;
+	bool gyroCCWBut;
+	bool gyroCWBut;
+
 };
