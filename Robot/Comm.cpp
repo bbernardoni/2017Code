@@ -2,12 +2,12 @@
 #include <util/crc16.h>
 
 void Comm::begin(long baud_rate) {
-  Serial2.begin(baud_rate);
+  Serial.begin(baud_rate);
   failures = 0;
 }
 
 bool Comm::read(){
-  int bytes_avail = Serial2.available();
+  int bytes_avail = Serial.available();
   //Serial.print("bytes_avail = ");
   //Serial.println(bytes_avail);
   if(bytes_avail < 16){
@@ -15,7 +15,7 @@ bool Comm::read(){
     return false;
   }
   
-  Serial2.readBytes(read_buf, bytes_avail);
+  Serial.readBytes(read_buf, bytes_avail);
   for (int i = bytes_avail - 1; i >= 7; i --) {   // search for last complete packet
     if (read_buf[i] == 0xdd && read_buf[i - 7] == 0xff) {   // a complete packet
       uint8_t crc = _crc8(&read_buf[i - 6], 5);
@@ -34,8 +34,8 @@ bool Comm::read(){
   }
   
 //  for (int i = 0; i < 8; i++)
-//    Serial2.print(buf[i], HEX);
-//  Serial2.println(_in_struct->gyroAngle);
+//    Serial.print(buf[i], HEX);
+//  Serial.println(_in_struct->gyroAngle);
   failures = 0;
   return true;
 }
@@ -43,12 +43,35 @@ bool Comm::read(){
 void Comm::write(){
   setOutBuf();
   if(failures == 0){
-    while(Serial2.available() > 0) {
-      char t = Serial2.read();
+    while(Serial.available() > 0) {
+      char t = Serial.read();
     }
   }
-  Serial2.write(outBuf, 8);
-  Serial2.write(outBuf, 8);
+  Serial.write(outBuf, 8);
+  Serial.write(outBuf, 8);
+}
+
+bool Comm::write(unsigned char * msg, int len) {
+  Serial.write(msg, len);
+}
+
+int Comm::read(unsigned char * buf, int bufsize) {
+  int bytes_avail = Serial.available();
+  if(bytes_avail < 4){
+    failures++;
+    return false;
+  }
+  Serial.readBytes(read_buf, bytes_avail);
+  for (int i = bytes_avail - 1; i >= 3; i --) {
+    if (buf[i] == 0xdd) {
+      unsigned char len = read_buf[i - 1];
+      if ((len + 3) <= i && read_buf[i - len - 3] == 0xff && read_buf[ - 2] == _crc8(&read_buf[i - len - 2], len)) {
+        memcpy(buf, read_buf, bufsize > 128 ? 128 : bufsize);
+        return bufsize > 128 ? 128 : bufsize;
+      }
+    }
+  }
+  return -1;
 }
 
 void Comm::setOutBuf(){
@@ -58,11 +81,6 @@ void Comm::setOutBuf(){
   outBuf[5] = _crc8(&outBuf[1], 4);
   outBuf[6] = 0xee;
   outBuf[7] = 0xdd;
-}
-
-bool Comm::is_still_on() {
-  // TODO: add implementation
-  return true;
 }
 
 Comm::~Comm() {

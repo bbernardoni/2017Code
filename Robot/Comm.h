@@ -10,14 +10,16 @@
  * -- To PC:              Data
  *          |0xff|    |    |    |    |CRC |0xee|0xdd|
  * -- From PC:
- *          |0xff| FL | BL | FR | BR |omni|CRC |0xdd|
+ *          |0xff| FL | BL | FR | BR   |omni|CRC |0xdd|
+ * -- Any length:
+ *          |0xff| --- data --- |CRC |len |0xdd|
  */
 class Comm {
 private:
   RobotIn *_in_struct;
   RobotOut *_out_struct;
-  unsigned char read_buf[64];
-  uint8_t outBuf[8];
+  unsigned char read_buf[128];
+  unsigned char outBuf[8];
   long failures;
   
 public:
@@ -32,9 +34,11 @@ public:
    */
   void write();
   bool read();
-  void setOutBuf();
 
-  bool is_still_on();
+  bool write(unsigned char * msg, int len);
+  bool read(unsigned char * buf, int bufsize);
+  
+  void setOutBuf();
   long getFailures() { return failures; }
   ~Comm();
 
