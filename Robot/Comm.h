@@ -35,8 +35,8 @@ public:
   void write();
   bool read();
 
-  bool write(unsigned char * msg, int len);
-  bool read(unsigned char * buf, int bufsize);
+  int write(unsigned char * msg, int len);
+  int read(unsigned char * buf, int bufsize);
   
   void setOutBuf();
   long getFailures() { return failures; }

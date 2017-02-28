@@ -51,8 +51,8 @@ void Comm::write(){
   Serial.write(outBuf, 8);
 }
 
-bool Comm::write(unsigned char * msg, int len) {
-  Serial.write(msg, len);
+int Comm::write(unsigned char * msg, int len) {
+  return Serial.write(msg, len);
 }
 
 int Comm::read(unsigned char * buf, int bufsize) {
