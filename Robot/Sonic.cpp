@@ -11,8 +11,8 @@ int Sonic::sonarRead(const int sonicOutputPin, const int sonicInputPin) {
 
   // Send out an ultrasonic wave
   digitalWrite(sonicOutputPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(sonicOutputPin, HIGH);
+  delayMicroseconds(2); //GET RID OF DELAY BY USING ALTERNATIVE LIBRARY!!!
+  digitalWrite(sonicOutputPin, HIGH); 
   delayMicroseconds(10);
   digitalWrite(sonicOutputPin, LOW);
 
