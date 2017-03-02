@@ -48,7 +48,6 @@ bool Comms::read(){
 		setOutBuf();
 		serial->write(outBuf, 8);
 		serial->write(outBuf, 8);
-		//std::cout << "failed size=" << size << std::endl;
 		return false;
 	}
 	//std::cout << "size=" << size << std::endl;
@@ -90,6 +89,34 @@ bool Comms::write(){
         return false;
 	}
 	return true;
+}
+
+int Comms::read(unsigned char * buf, int bufsize) {
+    uint8_t tmpbuf[BUF_SIZE];
+    if (serial == NULL)
+        return -1;
+    size_t size = serial->available();
+	size = size > BUF_SIZE ? BUF_SIZE : size; 
+    if (size < 4) {
+        return -1;
+    }
+    serial->read(tmpbuf, size);
+    for (int i = size - 1; i >= 3; i--) {
+        if (tmpbuf[i] == 0xdd) {
+            uint8_t len = tmpbuf[i - 1];
+            if ((len + 3) <= i && tmpbuf[i - len - 3] == 0xff && tmpbuf[-2] == crc8.compute(&tmpbuf[i - len - 2], len)) {
+                memcpy(buf, tmpbuf, bufsize > 128 ? 128 : bufsize);
+                return bufsize > 128 ? 128 : bufsize;
+            }
+        }
+    }
+    return -1;
+}
+
+int Comms::write(unsigned char * buf, int len) {
+    if (serial == NULL)
+        return -1;
+    return serial->write(buf, len);
 }
 
 void Comms::setOutBuf(){
