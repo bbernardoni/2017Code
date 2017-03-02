@@ -18,6 +18,9 @@ public:
     bool read();
     bool write();
 
+    int read(unsigned char * buf, int bufsize);
+    int write(unsigned char * buf, int len);
+
     void begin();
     void end();
 
