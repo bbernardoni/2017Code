@@ -35,7 +35,6 @@ struct RobotOut{
 
 	uint8_t intake;
 	uint8_t score;
-	bool solenoid;
 	bool door;
 
 	RobotOut() :
@@ -49,7 +48,6 @@ struct RobotOut{
 		keyGrabber(false),
 		intake(90),
 		score(90),
-		solenoid(false),
 		door(false)
 	{}
 };

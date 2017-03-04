@@ -32,10 +32,10 @@ void Ball::periodic(const RobotIn& rIn, RobotOut& rOut) {
 	lastGrabDoorKey = CTRL_DOOR;
 
 	if (solenoidState) {
-		rOut.solenoid = SOLENOID_ON;
+		rOut.door = SOLENOID_ON;
 	}
 	else {
-		rOut.solenoid = SOLENOID_OFF;
+		rOut.door = SOLENOID_OFF;
 	}
 
 	// If score button, toggle score motor for some period of time
