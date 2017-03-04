@@ -37,7 +37,7 @@ private:
     RobotIn in;
     CRC8 crc8;
 
-	unsigned char outBuf[8];
+	unsigned char outBuf[14];
 	void setOutBuf();
 
 	void enumerate_ports();

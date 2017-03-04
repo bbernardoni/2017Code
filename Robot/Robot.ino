@@ -20,14 +20,23 @@ Servo driveBL;
 Servo driveFR;
 Servo driveBR;
 int jumpPin = JUMP_PIN;
+// declare sonic sensors here
+// using SONIC_T_F_PIN, SONIC_E_F_PIN, ...
 
-/*
- * TODO
- * timeout code: stop motors if communication is lost
- */
+// Key IO
+Servo shoulderMotor;
+Servo wristMotor;
+int shoulderPotPin = SHOULDER_POT_PIN;
+int wristPotPin = WRIST_POT_PIN;
+int keyGrabberPin = KEY_GRABBER_PIN;
+
+// Ball IO
+Servo intake;
+Servo scoreServo;
+int doorPin = DOOR_PIN;
 
 void setup() {
-  // init Drivetrain IO (gyro below)
+  // init Drivetrain IO
   gyro.setup();
   driveFL.attach(DRIVE_FL_PIN);
   driveBL.attach(DRIVE_BL_PIN);
@@ -35,13 +44,29 @@ void setup() {
   driveBR.attach(DRIVE_BR_PIN);
   pinMode(jumpPin, OUTPUT);
   digitalWrite(jumpPin, LOW);
+  // init sonic sensors here
+  
+  // init Key IO
+  shoulderMotor.attach(SHOULDER_MOTOR_PIN);
+  wristMotor.attach(WRIST_MOTOR_PIN);
+  pinMode(keyGrabberPin, OUTPUT);
+  digitalWrite(keyGrabberPin, LOW);
 
+  // init Ball IO
+  intake.attach(INTAKE_PIN);
+  scoreServo.attach(SCORE_PIN);
+  pinMode(doorPin, OUTPUT);
+  digitalWrite(doorPin, LOW);
+  
   comm.begin(BAUD_RATE);
 }
 
 void loop() {
   // Get Robot input values and assign then to RobotIn
   in.gyroAngle = gyro.getAngle();
+  // set in.sonicDistanceF, ... here
+  in.shoulder = analogRead(shoulderPotPin);
+  in.wrist = analogRead(wristPotPin);
 
   // Write inputs to PC
   comm.write();
@@ -55,11 +80,22 @@ void loop() {
     driveFR.write(out.driveFR);
     driveBR.write(out.driveBR);
     digitalWrite(jumpPin, out.omni);
+
+    shoulderMotor.write(out.shoulder);
+    wristMotor.write(out.wrist);
+    digitalWrite(keyGrabberPin, out.keyGrabber);
+    
+    intake.write(out.intake);
+    scoreServo.write(out.score);
+    digitalWrite(doorPin, out.door);
   }else if(comm.getFailures() > 30){
     driveFL.write(90);
     driveBL.write(90);
     driveFR.write(90);
     driveBR.write(90);
+    shoulderMotor.write(90);
+    wristMotor.write(90);
+    intake.write(90);
   }
 }
 

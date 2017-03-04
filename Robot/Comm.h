@@ -19,7 +19,7 @@ private:
   RobotIn *_in_struct;
   RobotOut *_out_struct;
   unsigned char read_buf[128];
-  unsigned char outBuf[8];
+  unsigned char outBuf[13];
   long failures;
   
 public:
