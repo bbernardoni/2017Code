@@ -20,8 +20,6 @@ Servo driveBL;
 Servo driveFR;
 Servo driveBR;
 int jumpPin = JUMP_PIN;
-// declare sonic sensors here
-// using SONIC_T_F_PIN, SONIC_E_F_PIN, ...
 NewPing sonicFront(SONIC_T_F_PIN, SONIC_E_F_PIN) ;
 NewPing sonicLeft(SONIC_T_L_PIN, SONIC_E_L_PIN);
 NewPing sonicRight(SONIC_T_R_PIN, SONIC_E_R_PIN);
@@ -48,7 +46,6 @@ void setup() {
   driveBR.attach(DRIVE_BR_PIN);
   pinMode(jumpPin, OUTPUT);
   digitalWrite(jumpPin, LOW);
-  // init sonic sensors here
   
   // init Key IO
   shoulderMotor.attach(SHOULDER_MOTOR_PIN);
@@ -68,7 +65,6 @@ void setup() {
 void loop() {
   // Get Robot input values and assign then to RobotIn
   in.gyroAngle = gyro.getAngle();
-  // set in.sonicDistanceF, ... here
   
   //write distances to in struct in inches
   in.sonicDistanceF = sonicFront.ping_in();
