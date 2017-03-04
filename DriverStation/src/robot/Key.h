@@ -8,6 +8,9 @@ public:
 	Key();
 	void periodic(const RobotIn& rIn, RobotOut& rOut);
 
-private:
+	enum KeyState { manual, retrieve, insert };
 
+private:
+	bool lastGrabKey;
+	KeyState state;
 };

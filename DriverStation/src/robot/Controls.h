@@ -35,7 +35,7 @@
 #define CTRL_TRANS_Y            (-EXP_AXIS(0, LY))
 #define CTRL_ROT                ( EXP_AXIS(0, RX))
 #define CTRL_TANK_LEFT          (-EXP_AXIS(0, LY))
-#define CTRL_TANK_RIGHT         (-EXP_AXIS(0, RY))
+#define CTRL_TANK_RIGHT         (-EXP_AXIS(0, RY))// need auto tunnel controls
 
 #define CTRL_GYRO_RESET         (GET_BUTTON(0, A_BUT))
 #define CTRL_GYRO_ROT_CCW       (GET_BUTTON(0, LB))
@@ -44,7 +44,9 @@
 
 #define CTRL_RETRIEVE_POS       (GET_BUTTON(1, RB))
 #define CTRL_INS_POS            (GET_BUTTON(1, LB))
-#define CTRL_GRAB_KEY           (GET_BUTTON(1, X_BUT)) // still needs manual controls
+#define CTRL_GRAB_KEY           (GET_BUTTON(1, X_BUT))
+#define CTRL_MAN_SHOULDER       (DB_AXIS(1, RY))
+#define CTRL_MAN_WRIST          (DB_AXIS(1, LY))
 
 #define CTRL_INTAKE             (GET_BUTTON(1, Y_BUT))
 #define CTRL_DOOR               (GET_BUTTON(1, A_BUT))

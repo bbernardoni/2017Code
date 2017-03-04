@@ -1,31 +1,50 @@
 #include "Key.h"
 
 Key::Key(){
-	
+	lastGrabKey = false;
+	state = manual;
 }
 
 void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
-	/*
-	const int buttonPin = ; //the number of the push button pin
-	const int relayPin = ; //the number of the relay pin 
-	const int buttonState = 0; //variable that will change as button is pushed
-
-	void setup() {
-
-		//initialize buttonPin as the input
-		pinmode(buttonPin, INPUT);
-		//initialize relayPin as the output to solenoid
-		pinmode(relayPin, OUTPUT);
-
+	if(CTRL_RETRIEVE_POS){
+		state = retrieve;
+	}
+	if(CTRL_INS_POS){
+		state = insert;
+	}
+	if(CTRL_MAN_SHOULDER != 0.0f){
+		state = manual;
+	}
+	if(CTRL_MAN_WRIST != 0.0f){
+		state = manual;
 	}
 
-	void loop() {
+	switch(state){
+	case manual:
+		rOut.shoulder = CTRL_MAN_SHOULDER;
+		rOut.wrist = CTRL_MAN_WRIST;
+		break;
+	case retrieve:
+		bool inPos = true;
+		// execute pid
 
-		buttonState = digitalRead(buttonPin);
-		if (buttonState == HIGH) {
-			digitalWrite(relayPin,HIGH);
-
+		if(inPos){
+			state = manual;
 		}
+		break;
+	case insert:
+		bool inPos = true;
+
+		if(inPos){
+			state = manual;
+		}
+		break;
 	}
-	*/
+
+	// grab key
+	bool isPressed = CTRL_GRAB_KEY;
+	if(isPressed && !lastGrabKey){
+		rOut.keyGrabber = !rOut.keyGrabber;
+	}
+	lastGrabKey = isPressed;
 }
