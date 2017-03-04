@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -85,10 +85,11 @@
     <ClCompile Include="..\src\gui\gui.cpp" />
     <ClCompile Include="..\src\gui\joyPanel.cpp" />
     <ClCompile Include="..\src\gui\textOut.cpp" />
+    <ClCompile Include="..\src\robot\Ball.cpp" />
     <ClCompile Include="..\src\robot\Drive.cpp" />
+    <ClCompile Include="..\src\robot\Key.cpp" />
     <ClCompile Include="..\src\robot\Robot.cpp" />
     <ClCompile Include="..\src\utils\Comms.cpp" />
-    <ClCompile Include="Tunnel.cpp" />
     <ClCompile Include="..\src\utils\crc8.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -98,13 +99,14 @@
     <ClInclude Include="..\src\gui\gui.h" />
     <ClInclude Include="..\src\gui\joyPanel.h" />
     <ClInclude Include="..\src\gui\textOut.h" />
+    <ClInclude Include="..\src\robot\Ball.h" />
     <ClInclude Include="..\src\robot\Constants.h" />
     <ClInclude Include="..\src\robot\Controls.h" />
     <ClInclude Include="..\src\robot\Drive.h" />
+    <ClInclude Include="..\src\robot\Key.h" />
     <ClInclude Include="..\src\robot\Robot.h" />
     <ClInclude Include="..\src\robot\RobotIO.h" />
     <ClInclude Include="..\src\utils\Comms.h" />
-    <ClInclude Include="Tunnel.h" />
     <ClInclude Include="..\src\utils\crc8.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
