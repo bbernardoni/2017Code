@@ -19,13 +19,13 @@ void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
 		state = manual;
 	}
 
+	bool inPos = true;
 	switch(state){
 	case manual:
-		rOut.shoulder = CTRL_MAN_SHOULDER;
-		rOut.wrist = CTRL_MAN_WRIST;
+		rOut.shoulder = uint8_t((CTRL_MAN_SHOULDER + 1) * 90);
+		rOut.wrist = uint8_t((CTRL_MAN_WRIST + 1) * 90);
 		break;
 	case retrieve:
-		bool inPos = true;
 		// execute pid
 
 		if(inPos){
@@ -33,7 +33,6 @@ void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
 		}
 		break;
 	case insert:
-		bool inPos = true;
 
 		if(inPos){
 			state = manual;
