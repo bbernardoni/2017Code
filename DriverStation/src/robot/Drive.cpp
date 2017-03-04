@@ -91,49 +91,41 @@ void Drive::robotCentricControl(RobotOut& rOut, float transX, float transY, floa
 
 void Drive::autonomousControl(const RobotIn& rIn, RobotOut& rOut){
 	switch (directionState){
-	case direction1:
+	case front:
 		/*move in direction1*/
 		getSonarValue(rIn);
-		if (isBlocked(sonar_1)) directionState = getNextDirection();
+		if (isBlocked(sonarF)) directionState = getNextDirection();
 		robotCentricControl(rOut, 0, CONSTANT_SHIFT, 0);
 		break;
-	case direction2:
+	case right:
 		/*move in direction2*/
 		getSonarValue(rIn);
-		if (isBlocked(sonar_2)) directionState = getNextDirection();
+		if (isBlocked(sonarR)) directionState = getNextDirection();
 		robotCentricControl(rOut, CONSTANT_SHIFT, 0, 0);
 		break;
-	case direction3:
+	case back:
 		/*move in direction3*/
 		getSonarValue(rIn);
-		if (isBlocked(sonar_3)) directionState = getNextDirection();
+		if (isBlocked(sonarB)) directionState = getNextDirection();
 		robotCentricControl(rOut, 0, -CONSTANT_SHIFT, 0);
 		break;
-	case direction4:
+	case left:
 		/*move in direction4*/
 		getSonarValue(rIn);
-		if (isBlocked(sonar_4)) directionState = getNextDirection();
+		if (isBlocked(sonarL)) directionState = getNextDirection();
 		robotCentricControl(rOut, -CONSTANT_SHIFT, 0, 0);
 		break;
 	}
 }
 
 Drive::direction Drive::getNextDirection(){
-	if (directionState == direction1){
-		if (isBlocked(sonar_2)) return direction4;
-		else return direction2;
+	if (directionState == front || directionState == back){
+		if (isBlocked(right)) return left;
+		else return right;
 	}
-	if (directionState == direction2){
-		if (isBlocked(sonar_1)) return direction3;
-		else return direction1;
-	}
-	if (directionState == direction3){
-		if (isBlocked(sonar_2)) return direction4;
-		else return direction2;
-	}
-	if (directionState == direction4){
-		if (isBlocked(sonar_1)) return direction3;
-		else return direction1;
+	else {
+		if (isBlocked(front)) return back;
+		else return front;
 	}
 }
 
@@ -147,10 +139,9 @@ bool Drive::isBlocked(int dis){
 }
 
 void Drive::getSonarValue(const RobotIn& rIn){
-	sonar_1 = rIn.sonicDistanceF;
-	sonar_2 = rIn.sonicDistanceR;
-	sonar_3 = rIn.sonicDistanceB;
-	sonar_4 = rIn.sonicDistanceL;
+	sonarF = rIn.sonicDistanceF;
+	sonarR = rIn.sonicDistanceR;
+	sonarB = rIn.sonicDistanceB;
+	sonarL = rIn.sonicDistanceL;
 	//read sonar value from robot
-
 }

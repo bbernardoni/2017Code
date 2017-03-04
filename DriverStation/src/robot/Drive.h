@@ -11,7 +11,7 @@
 class Drive {
 public:
 	enum DriveMode { fieldCentric, robotCentric, tank, autonomous, numModes };
-	enum direction { direction1, direction2, direction3, direction4 };
+	enum direction { front, right, back, left };
 	Drive(DriveMode _mode);
 	void periodic(const RobotIn& rIn, RobotOut& rOut);
 
@@ -42,10 +42,10 @@ private:
 	bool gyroCWBut;
 
 	direction directionState;
-	float sonar_1;
-	float sonar_2;
-	float sonar_3;
-	float sonar_4;
+	float sonarF;
+	float sonarL;
+	float sonarR;
+	float sonarB;
 	direction getCurrentDirection();
 	direction getNextDirection();
 	bool isBlocked(int dir);
