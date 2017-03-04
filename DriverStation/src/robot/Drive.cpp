@@ -90,6 +90,7 @@ void Drive::robotCentricControl(RobotOut& rOut, float transX, float transY, floa
 
 
 void Drive::autonomousControl(const RobotIn& rIn, RobotOut& rOut){
+	directionState = front;
 	switch (directionState){
 	case front:
 		/*move in direction1*/
