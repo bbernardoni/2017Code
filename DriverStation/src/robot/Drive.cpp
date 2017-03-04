@@ -44,6 +44,7 @@ void Drive::periodic(const RobotIn& rIn, RobotOut& rOut){
 		break;
 	case autonomous:
 		autonomousControl(rIn, rOut);
+		break;
 	}
 }
 
