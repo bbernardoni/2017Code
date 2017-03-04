@@ -42,4 +42,10 @@
 #define CTRL_GYRO_ROT_CW        (GET_BUTTON(0, RB))
 #define CTRL_TOGGLE_MODE        (GET_BUTTON(0, START))
 
+#define CTRL_RETRIEVE_POS       (GET_BUTTON(1, RB))
+#define CTRL_INS_POS            (GET_BUTTON(1, LB))
+#define CTRL_GRAB_KEY           (GET_BUTTON(1, X_BUT)) // still needs manual controls
 
+#define CTRL_INTAKE             (GET_BUTTON(1, Y_BUT))
+#define CTRL_DOOR               (GET_BUTTON(1, A_BUT))
+#define CTRL_SCORE              (GET_BUTTON(1, B_BUT))
