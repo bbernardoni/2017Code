@@ -1,5 +1,6 @@
 # vs files
 Debug/
+Release/
 
 *.suo
 *.user
@@ -7,3 +8,4 @@ Debug/
 *.aps
 *.opensdf
 *.sdf
+*.pdf

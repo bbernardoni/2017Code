@@ -10,13 +10,15 @@ using namespace sf;
 AppRes* appRes;
 
 int main(){
-	RenderWindow window(VideoMode(600, 632), "Transfarmers Driver Station");
+	RenderWindow window(VideoMode(600, 588), "Transfarmers Driver Station");
+	window.setFramerateLimit(60);
 
 	AppRes res;
 	appRes = &res;
 	GUI gui;
 	Comms comms;
 	Robot robot;
+    comms.begin();
 
 	while(window.isOpen()){
 		Event event;
@@ -31,10 +33,10 @@ int main(){
 		}
 
 		if(comms.maintainConnection()){
-			/*if(comms.read()){
-				robot.periodic(comms.in, comms.out);
+			if(comms.read()){
+				robot.periodic(comms.getRobotIn(), comms.getRobotOut());
 				comms.write();
-			}*/
+			}
 		}
 
 		gui.update(window);

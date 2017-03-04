@@ -42,7 +42,9 @@
     <LibraryPath>$(ProjectDir)\..\libs\serial\lib;$(ProjectDir)\..\libs\SFML-2.4.1\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(ProjectDir)\..\libs\serial\lib;$(ProjectDir)\..\libs\SFML-2.4.1\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <IncludePath>$(ProjectDir)\..\libs\serial\include;$(ProjectDir)\..\libs\SFML-2.4.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -56,22 +58,24 @@
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-graphics-s-d.lib;winmm.lib;opengl32.lib;gdi32.lib;freetype.lib;jpeg.lib;serial.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-graphics-s-d.lib;winmm.lib;opengl32.lib;gdi32.lib;freetype.lib;jpeg.lib;serial-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sfml-system-s.lib;sfml-window-s.lib;sfml-graphics-s.lib;winmm.lib;opengl32.lib;gdi32.lib;freetype.lib;jpeg.lib;serial.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -81,9 +85,12 @@
     <ClCompile Include="..\src\gui\gui.cpp" />
     <ClCompile Include="..\src\gui\joyPanel.cpp" />
     <ClCompile Include="..\src\gui\textOut.cpp" />
+    <ClCompile Include="..\src\robot\Ball.cpp" />
     <ClCompile Include="..\src\robot\Drive.cpp" />
+    <ClCompile Include="..\src\robot\Key.cpp" />
     <ClCompile Include="..\src\robot\Robot.cpp" />
     <ClCompile Include="..\src\utils\Comms.cpp" />
+    <ClCompile Include="..\src\utils\crc8.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\gui\appRes.h" />
@@ -92,12 +99,15 @@
     <ClInclude Include="..\src\gui\gui.h" />
     <ClInclude Include="..\src\gui\joyPanel.h" />
     <ClInclude Include="..\src\gui\textOut.h" />
+    <ClInclude Include="..\src\robot\Ball.h" />
     <ClInclude Include="..\src\robot\Constants.h" />
     <ClInclude Include="..\src\robot\Controls.h" />
     <ClInclude Include="..\src\robot\Drive.h" />
+    <ClInclude Include="..\src\robot\Key.h" />
     <ClInclude Include="..\src\robot\Robot.h" />
     <ClInclude Include="..\src\robot\RobotIO.h" />
     <ClInclude Include="..\src\utils\Comms.h" />
+    <ClInclude Include="..\src\utils\crc8.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

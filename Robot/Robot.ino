@@ -1,60 +1,101 @@
+#include "Config.h"
+
 #include "RobotIO.h"
+#include "Comm.h"
+
 #include <Servo.h>
 #include <SPI.h>
+#include "Gyro.h"
+#include "Sonic.h"
 
 // Robot input and output structs
 RobotIn in;
 RobotOut out;
+Comm comm(&in, &out);
 
 // Drivetrain IO
-int gyroPin;
+Gyro gyro(GYRO_PIN);
 Servo driveFL;
 Servo driveBL;
 Servo driveFR;
 Servo driveBR;
-int jumpPin;
-  
-/*
- * TODO
- * timeout code: stop motors if communication is lost
- */
+int jumpPin = JUMP_PIN;
+// declare sonic sensors here
+// using SONIC_T_F_PIN, SONIC_E_F_PIN, ...
+
+// Key IO
+Servo shoulderMotor;
+Servo wristMotor;
+int shoulderPotPin = SHOULDER_POT_PIN;
+int wristPotPin = WRIST_POT_PIN;
+int keyGrabberPin = KEY_GRABBER_PIN;
+
+// Ball IO
+Servo intake;
+Servo scoreServo;
+int doorPin = DOOR_PIN;
 
 void setup() {
   // init Drivetrain IO
-  gyroPin = 6;
-  driveFL.attach(1);
-  driveBL.attach(2);
-  driveFR.attach(3);
-  driveBR.attach(4);
-  jumpPin = 5;
+  gyro.setup();
+  driveFL.attach(DRIVE_FL_PIN);
+  driveBL.attach(DRIVE_BL_PIN);
+  driveFR.attach(DRIVE_FR_PIN);
+  driveBR.attach(DRIVE_BR_PIN);
   pinMode(jumpPin, OUTPUT);
   digitalWrite(jumpPin, LOW);
-  /* TODO gyro stuff, ignore for now
-  SPI.begin();
-  pinMode(gyroPin, OUTPUT);
-  digitalWrite(gyroPin, HIGH);
-  SPI.setBitOrder(MSBFIRST);
-  SPI.setClockDivider(SPI_CLOCK_DIV16); 
-  SPI.setDataMode(SPI_MODE0);
-  lastGyroRead = 0;
-  gyroOffset = 0.0;*/
+  // init sonic sensors here
+  
+  // init Key IO
+  shoulderMotor.attach(SHOULDER_MOTOR_PIN);
+  wristMotor.attach(WRIST_MOTOR_PIN);
+  pinMode(keyGrabberPin, OUTPUT);
+  digitalWrite(keyGrabberPin, LOW);
 
+  // init Ball IO
+  intake.attach(INTAKE_PIN);
+  scoreServo.attach(SCORE_PIN);
+  pinMode(doorPin, OUTPUT);
+  digitalWrite(doorPin, LOW);
+  
+  comm.begin(BAUD_RATE);
 }
 
 void loop() {
   // Get Robot input values and assign then to RobotIn
-  in.gyroAngle = 0.0; // TODO assign real value
+  in.gyroAngle = gyro.getAngle();
+  // set in.sonicDistanceF, ... here
+  in.shoulder = analogRead(shoulderPotPin);
+  in.wrist = analogRead(wristPotPin);
 
-  // Send inputs to PC through serial
-  // TODO
+  // Write inputs to PC
+  comm.write();
+  delay(16);
 
-  // Read outputs from PC through serial
-  // TODO
+  // Read output values to IO struct
+  if(comm.read()){
+    // Write RobotOut values to outputs
+    driveFL.write(out.driveFL);
+    driveBL.write(out.driveBL);
+    driveFR.write(out.driveFR);
+    driveBR.write(out.driveBR);
+    digitalWrite(jumpPin, out.omni);
 
-  // Write RobotOut values to outputs
-  driveFL.write(out.driveFL);
-  driveBL.write(out.driveBL);
-  driveFR.write(out.driveFR);
-  driveBR.write(out.driveBR);
-  digitalWrite(jumpPin, out.omni);
+    shoulderMotor.write(out.shoulder);
+    wristMotor.write(out.wrist);
+    digitalWrite(keyGrabberPin, out.keyGrabber);
+    
+    intake.write(out.intake);
+    scoreServo.write(out.score);
+    digitalWrite(doorPin, out.door);
+  }else if(comm.getFailures() > 30){
+    driveFL.write(90);
+    driveBL.write(90);
+    driveFR.write(90);
+    driveBR.write(90);
+    shoulderMotor.write(90);
+    wristMotor.write(90);
+    intake.write(90);
+  }
 }
+
