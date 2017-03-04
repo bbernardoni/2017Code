@@ -6,7 +6,7 @@
 #include <Servo.h>
 #include <SPI.h>
 #include "Gyro.h"
-#include "Sonic.h"
+#include <NewPing.h>
 
 // Robot input and output structs
 RobotIn in;
@@ -22,6 +22,10 @@ Servo driveBR;
 int jumpPin = JUMP_PIN;
 // declare sonic sensors here
 // using SONIC_T_F_PIN, SONIC_E_F_PIN, ...
+NewPing sonicFront(SONIC_T_F_PIN, SONIC_E_F_PIN) ;
+NewPing sonicLeft(SONIC_T_L_PIN, SONIC_E_L_PIN);
+NewPing sonicRight(SONIC_T_R_PIN, SONIC_E_R_PIN);
+NewPing sonicBack(SONIC_T_B_PIN, SONIC_E_B_PIN);
 
 // Key IO
 Servo shoulderMotor;
@@ -65,6 +69,13 @@ void loop() {
   // Get Robot input values and assign then to RobotIn
   in.gyroAngle = gyro.getAngle();
   // set in.sonicDistanceF, ... here
+  
+  //write distances to in struct in inches
+  in.sonicDistanceF = sonicFront.ping_in();
+  in.sonicDistanceL = sonicLeft.ping_in();
+  in.sonicDistanceR = sonicRight.ping_in();
+  in.sonicDistanceB = sonicBack.ping_in();
+  
   in.shoulder = analogRead(shoulderPotPin);
   in.wrist = analogRead(wristPotPin);
 
