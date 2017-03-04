@@ -12,4 +12,4 @@
 
 // Times used in Ball.cpp
 // not sure if some of these values are good, needs testing
-#define HOLD_TIME               5000
+#define HOLD_TIME               5 // seconds

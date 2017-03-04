@@ -13,7 +13,9 @@ public:
 
 private:
 	bool scoring;
-	time_t scoreStartTime;
+	clock_t scoreStartTime;
 	bool intakeState;
 	bool solenoidState;
+	bool lastGrabIntakeKey;
+	bool lastGrabDoorKey;
 };
