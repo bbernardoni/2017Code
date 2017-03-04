@@ -41,5 +41,6 @@
 #define CTRL_GYRO_ROT_CCW       (GET_BUTTON(0, LB))
 #define CTRL_GYRO_ROT_CW        (GET_BUTTON(0, RB))
 #define CTRL_TOGGLE_MODE        (GET_BUTTON(0, START))
+#define CTRL_AUTO_MODE			(GET_BUTTON(0, B_BUT))
 
 
