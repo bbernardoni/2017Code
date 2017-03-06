@@ -11,6 +11,20 @@ void Drive::periodic(const RobotIn& rIn, RobotOut& rOut){
 		std::cout << "Mode changed to " << mode << std::endl;
 	}
 	modeBut = isPressed;
+
+	bool autoBut = CTRL_AUTO_MODE;
+	if (autoBut && !autoMode){
+		prevMode = mode;
+		mode = autonomous;
+		directionState = front;
+		std::cout << "Mode changed to autonomous" << std::endl;
+	}
+	autoMode = autoBut;
+	if (autoBut && mode == autonomous){
+		robotCentricControl(rOut, 0, 0, 0);
+		mode = prevMode;
+	}
+
 	switch (mode){
 	case fieldCentric: {
 		if (CTRL_GYRO_RESET){
@@ -91,41 +105,57 @@ void Drive::robotCentricControl(RobotOut& rOut, float transX, float transY, floa
 
 
 void Drive::autonomousControl(const RobotIn& rIn, RobotOut& rOut){
-	directionState = front;
 	switch (directionState){
 	case front:
-		/*move in direction1*/
 		getSonarValue(rIn);
 		if (isBlocked(sonarF)) directionState = getNextDirection();
 		robotCentricControl(rOut, 0, CONSTANT_SHIFT, 0);
 		break;
 	case right:
-		/*move in direction2*/
 		getSonarValue(rIn);
 		if (isBlocked(sonarR)) directionState = getNextDirection();
 		robotCentricControl(rOut, CONSTANT_SHIFT, 0, 0);
 		break;
-	case back:
-		/*move in direction3*/
-		getSonarValue(rIn);
-		if (isBlocked(sonarB)) directionState = getNextDirection();
-		robotCentricControl(rOut, 0, -CONSTANT_SHIFT, 0);
-		break;
 	case left:
-		/*move in direction4*/
 		getSonarValue(rIn);
 		if (isBlocked(sonarL)) directionState = getNextDirection();
 		robotCentricControl(rOut, -CONSTANT_SHIFT, 0, 0);
+		break;
+	case back:
+		getSonarValue(rIn);
+		if (isBlocked(sonarB)){
+			directionState = getNextDirection();
+			exitTime = clock();
+		}
+		robotCentricControl(rOut, 0, -CONSTANT_SHIFT, 0);
+		break;
+	case exitRight:
+		if ((clock() - exitTime)/CLOCKS_PER_SEC > EXIT_DELAY){
+			robotCentricControl(rOut, 0, 0, 0);
+			mode = prevMode;
+		}
+		else robotCentricControl(rOut, CONSTANT_SHIFT, 0, 0);
+		break;
+	case exitLeft:
+		if ((clock() - exitTime)/CLOCKS_PER_SEC > EXIT_DELAY){
+			robotCentricControl(rOut, 0, 0, 0);
+			mode = prevMode;
+		}
+		else robotCentricControl(rOut, -CONSTANT_SHIFT, 0, 0);
 		break;
 	}
 }
 
 Drive::direction Drive::getNextDirection(){
-	if (directionState == front || directionState == back){
+	if (directionState == front){
 		if (isBlocked(right)) return left;
 		else return right;
 	}
-	else {
+	else if (directionState == back){
+		if (isBlocked(left)) return exitRight;
+		else return exitLeft;
+	}
+	else{
 		if (isBlocked(front)) return back;
 		else return front;
 	}
