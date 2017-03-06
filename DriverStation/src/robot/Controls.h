@@ -35,7 +35,7 @@
 #define CTRL_TRANS_Y            (-EXP_AXIS(0, LY))
 #define CTRL_ROT                ( EXP_AXIS(0, RX))
 #define CTRL_TANK_LEFT          (-EXP_AXIS(0, LY))
-#define CTRL_TANK_RIGHT         (-EXP_AXIS(0, RY))// need auto tunnel controls
+#define CTRL_TANK_RIGHT         (-EXP_AXIS(0, RY))
 
 #define CTRL_GYRO_RESET         (GET_BUTTON(0, A_BUT))
 #define CTRL_GYRO_ROT_CCW       (GET_BUTTON(0, LB))

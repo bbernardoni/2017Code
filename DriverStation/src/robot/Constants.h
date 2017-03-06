@@ -1,6 +1,12 @@
 // Default drive mode
 #define DRIVE_MODE              Drive::tank
 
+// Drive Constants
+#define PI                      3.14159265358979323846f
+#define BLOCK_DISTANCE          3
+#define AUTO_SPEED              0.5
+#define EXIT_DELAY              5
+
 // Servo positions used in Ball.cpp
 #define INTAKE_ON               180
 #define INTAKE_OFF              90     
