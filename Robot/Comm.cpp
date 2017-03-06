@@ -2,20 +2,20 @@
 #include <util/crc16.h>
 
 void Comm::begin(long baud_rate) {
-  Serial.begin(baud_rate);
+  Serial2.begin(baud_rate);
   failures = 0;
 }
 
 bool Comm::read(){
-  int bytes_avail = Serial.available();
-  //Serial.print("bytes_avail = ");
-  //Serial.println(bytes_avail);
+  int bytes_avail = Serial2.available();
+  //Serial2.print("bytes_avail = ");
+  //Serial2.println(bytes_avail);
   if(bytes_avail < 30){
     failures++;
     return false;
   }
   
-  Serial.readBytes(read_buf, bytes_avail);
+  Serial2.readBytes(read_buf, bytes_avail);
   for (int i = bytes_avail - 1; i >= 14; i --) {   // search for last complete packet
     if (read_buf[i] == 0xdd && read_buf[i - 14] == 0xff) {   // a complete packet
       uint8_t crc = _crc8(&read_buf[i - 13], 12);
@@ -23,7 +23,7 @@ bool Comm::read(){
         i -= 15;
         continue;
       }
-      //Serial.println("Read successful");
+      //Serial2.println("Read successful");
       _out_struct->driveFL = read_buf[i - 13];     //TODO: potential race condition. No synchronization primitives
       _out_struct->driveBL = read_buf[i - 12];
       _out_struct->driveFR = read_buf[i - 11];
@@ -41,8 +41,8 @@ bool Comm::read(){
   }
   
 //  for (int i = 0; i < 8; i++)
-//    Serial.print(buf[i], HEX);
-//  Serial.println(_in_struct->gyroAngle);
+//    Serial2.print(buf[i], HEX);
+//  Serial2.println(_in_struct->gyroAngle);
   failures = 0;
   return true;
 }
@@ -50,25 +50,25 @@ bool Comm::read(){
 void Comm::write(){
   setOutBuf();
   if(failures == 0){
-    while(Serial.available() > 0) {
-      char t = Serial.read();
+    while(Serial2.available() > 0) {
+      char t = Serial2.read();
     }
   }
-  Serial.write(outBuf, 27);
-  Serial.write(outBuf, 27);
+  Serial2.write(outBuf, 27);
+  Serial2.write(outBuf, 27);
 }
 
 int Comm::write(unsigned char * msg, int len) {
-  return Serial.write(msg, len);
+  return Serial2.write(msg, len);
 }
 
 int Comm::read(unsigned char * buf, int bufsize) {
-  int bytes_avail = Serial.available();
+  int bytes_avail = Serial2.available();
   if(bytes_avail < 4){
     failures++;
     return false;
   }
-  Serial.readBytes(read_buf, bytes_avail);
+  Serial2.readBytes(read_buf, bytes_avail);
   for (int i = bytes_avail - 1; i >= 3; i --) {
     if (buf[i] == 0xdd) {
       unsigned char len = read_buf[i - 1];
