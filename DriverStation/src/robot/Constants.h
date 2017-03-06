@@ -9,9 +9,7 @@
 
 // Servo positions used in Ball.cpp
 #define INTAKE_ON               180
-#define INTAKE_OFF              90     
-#define SOLENOID_ON             true
-#define SOLENOID_OFF            false
+#define INTAKE_OFF              90
 #define SCORE_POSN              180
 #define HOLD_POSN               90
 

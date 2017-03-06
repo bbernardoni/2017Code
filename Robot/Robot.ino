@@ -35,7 +35,8 @@ int keyGrabberPin = KEY_GRABBER_PIN;
 // Ball IO
 Servo intake;
 Servo scoreServo;
-int doorPin = DOOR_PIN;
+int doorOutPin = DOOR_OUT_PIN;
+int doorUpPin = DOOR_UP_PIN;
 
 void setup() {
   // init Drivetrain IO
@@ -56,8 +57,10 @@ void setup() {
   // init Ball IO
   intake.attach(INTAKE_PIN);
   scoreServo.attach(SCORE_PIN);
-  pinMode(doorPin, OUTPUT);
-  digitalWrite(doorPin, LOW);
+  pinMode(doorOutPin, OUTPUT);
+  digitalWrite(doorOutPin, LOW);
+  pinMode(doorUpPin, OUTPUT);
+  digitalWrite(doorUpPin, LOW);
   
   comm.begin(BAUD_RATE);
 }
@@ -94,7 +97,8 @@ void loop() {
     
     intake.write(out.intake);
     scoreServo.write(out.score);
-    digitalWrite(doorPin, out.door);
+    digitalWrite(doorOutPin, out.doorOut);
+    digitalWrite(doorUpPin, out.doorUp);
   }else if(comm.getFailures() > 30){
     driveFL.write(90);
     driveBL.write(90);

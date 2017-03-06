@@ -45,10 +45,11 @@
 
 #define CTRL_RETRIEVE_POS       (GET_BUTTON(1, RB))
 #define CTRL_INS_POS            (GET_BUTTON(1, LB))
-#define CTRL_GRAB_KEY           (GET_BUTTON(1, X_BUT))
+#define CTRL_GRAB_KEY           (GET_BUTTON(1, START))
 #define CTRL_MAN_SHOULDER       (DB_AXIS(1, RY))
 #define CTRL_MAN_WRIST          (DB_AXIS(1, LY))
 
 #define CTRL_INTAKE             (GET_BUTTON(1, Y_BUT))
-#define CTRL_DOOR               (GET_BUTTON(1, A_BUT))
-#define CTRL_SCORE              (GET_BUTTON(1, B_BUT))
+#define CTRL_DOOR_OUT           (GET_BUTTON(1, A_BUT))
+#define CTRL_DOOR_UP            (GET_BUTTON(1, B_BUT))
+#define CTRL_SCORE              (GET_BUTTON(1, X_BUT))

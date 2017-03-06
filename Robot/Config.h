@@ -25,7 +25,8 @@
 
 #define INTAKE_PIN    1
 #define SCORE_PIN     1
-#define DOOR_PIN      1
+#define DOOR_OUT_PIN  1
+#define DOOR_UP_PIN   1
 
 // Comms
 #define BAUD_RATE     57600

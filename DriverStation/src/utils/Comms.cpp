@@ -46,8 +46,8 @@ bool Comms::read(){
 	size = size > BUF_SIZE ? BUF_SIZE : size;
 	if(size < 30){
 		setOutBuf();
-		serial->write(outBuf, 14);
-		serial->write(outBuf, 14);
+		serial->write(outBuf, 15);
+		serial->write(outBuf, 15);
 		return false;
 	}
 	//std::cout << "size=" << size << std::endl;
@@ -86,9 +86,9 @@ bool Comms::write(){
 		size = size > BUF_SIZE ? BUF_SIZE : size;
 		serial->read(buffer, size);
 	}
-	size_t bytesWritten = serial->write(outBuf, 14);
-	bytesWritten += serial->write(outBuf, 14);           // write twice. just in case
-	if(bytesWritten != 28){
+	size_t bytesWritten = serial->write(outBuf, 15);
+	bytesWritten += serial->write(outBuf, 15);           // write twice. just in case
+	if(bytesWritten != 30){
 		serial->close();
 		serial = NULL;
 		std::cout << "Connection lost during write\n";
@@ -137,9 +137,10 @@ void Comms::setOutBuf(){
 	outBuf[8] = out.keyGrabber;
 	outBuf[9] = out.intake;
 	outBuf[10] = out.score;
-	outBuf[11] = out.door;
-	outBuf[12] = crc8.compute(&outBuf[1], 11);
-	outBuf[13] = 0xdd;
+	outBuf[11] = out.doorOut;
+	outBuf[12] = out.doorUp;
+	outBuf[13] = crc8.compute(&outBuf[1], 12);
+	outBuf[14] = 0xdd;
 }
 
 bool Comms::maintainConnection(){

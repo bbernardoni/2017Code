@@ -4,9 +4,9 @@ Ball::Ball() {
 	scoring = false;
 	scoreStartTime = 0;
 	intakeState = false;
-	solenoidState = false;
 	lastGrabIntakeKey = false;
-	lastGrabDoorKey = false;
+	lastGrabDoorOutKey = false;
+	lastGrabDoorUpKey = false;
 }
 
 void Ball::periodic(const RobotIn& rIn, RobotOut& rOut) {
@@ -26,17 +26,15 @@ void Ball::periodic(const RobotIn& rIn, RobotOut& rOut) {
 
 
 	// If raise door button is pressed, toggle solenoid
-	if (CTRL_DOOR && !lastGrabDoorKey) {
-		intakeState = !intakeState;
+	if(CTRL_DOOR_OUT && !lastGrabDoorOutKey) {
+		rOut.doorOut = !rOut.doorOut;
 	}
-	lastGrabDoorKey = CTRL_DOOR;
+	lastGrabDoorOutKey = CTRL_DOOR_OUT;
 
-	if (solenoidState) {
-		rOut.door = SOLENOID_ON;
+	if(CTRL_DOOR_UP && !lastGrabDoorUpKey) {
+		rOut.doorUp = !rOut.doorUp;
 	}
-	else {
-		rOut.door = SOLENOID_OFF;
-	}
+	lastGrabDoorUpKey = CTRL_DOOR_UP;
 
 	// If score button, toggle score motor for some period of time
 	if (CTRL_SCORE) {
