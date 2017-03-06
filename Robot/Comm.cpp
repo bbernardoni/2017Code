@@ -53,8 +53,8 @@ void Comm::write(){
       char t = Serial.read();
     }
   }
-  Serial.write(outBuf, 13);
-  Serial.write(outBuf, 13);
+  Serial.write(outBuf, 15);
+  Serial.write(outBuf, 15);
 }
 
 int Comm::write(unsigned char * msg, int len) {
@@ -88,10 +88,11 @@ void Comm::setOutBuf(){
   outBuf[6] = _in_struct->sonicDistanceL;
   outBuf[7] = _in_struct->sonicDistanceR;
   outBuf[8] = _in_struct->sonicDistanceB;
-  outBuf[9] = _in_struct->shoulder;
-  outBuf[10] = _in_struct->wrist;
-  outBuf[11] = _crc8(&outBuf[1], 10);
-  outBuf[12] = 0xdd;
+  uint16_t *tmp2 = (uint16_t *)(outBuf + 9);
+  *tmp2 = _in_struct->shoulder;
+  *(tmp2+1) = _in_struct->wrist;
+  outBuf[13] = _crc8(&outBuf[1], 12);
+  outBuf[14] = 0xdd;
 }
 
 Comm::~Comm() {

@@ -8,8 +8,8 @@ struct RobotIn {
   uint8_t sonicDistanceR;
   uint8_t sonicDistanceB;
 
-  uint8_t shoulder;
-  uint8_t wrist;
+  uint16_t shoulder;
+  uint16_t wrist;
 
 	RobotIn() :
 		gyroAngle(0.0f),
