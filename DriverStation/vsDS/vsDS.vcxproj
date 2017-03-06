@@ -91,6 +91,7 @@
     <ClCompile Include="..\src\robot\Robot.cpp" />
     <ClCompile Include="..\src\utils\Comms.cpp" />
     <ClCompile Include="..\src\utils\crc8.cpp" />
+    <ClCompile Include="..\src\utils\PID.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\gui\appRes.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="..\src\robot\RobotIO.h" />
     <ClInclude Include="..\src\utils\Comms.h" />
     <ClInclude Include="..\src\utils\crc8.h" />
+    <ClInclude Include="..\src\utils\PID.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

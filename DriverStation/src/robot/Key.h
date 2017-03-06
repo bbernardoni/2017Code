@@ -2,6 +2,8 @@
 
 #include "RobotIO.h"
 #include "Controls.h"
+#include "../utils/PID.h"
+#include "Constants.h"
 
 class Key {
 public:
@@ -13,4 +15,6 @@ public:
 private:
 	bool lastGrabKey;
 	KeyState state;
+	PID shoulderPid;
+	PID wristPid;
 };

@@ -1,94 +1,66 @@
-#ifndef _PID_SOURCE_
-#define _PID_SOURCE_
-
-#include <iostream>
-#include <cmath>
 #include "PID.h"
 
-using namespace std;
+PID::PID(PIDType _pidType, double _kp, double _ki, double _kd) :
+pidType(_pidType),
+kp(_kp), ki(_ki), kd(_kd),
+target(0.0),
+iLimit(DBL_MAX),
+iErrBand(0.0),
+targetErrBand(1.0),
+doneSpeed(0.1),
+outMin(-1.0),
+outMax(1.0),
+lastTime(clock()),
+lastError(0.0),
+accI(0.0),
+output(0.0),
+done(false)
+{}
 
-class PIDImpl
-{
-public:
-    PIDImpl(double dt, double max, double min, double Kp, double Kd, double Ki);
-    ~PIDImpl();
-    double calculate(double setpoint, double pv);
+double PID::compute(double curValue){
+	clock_t time = clock();
+	double dt = double(time - lastTime) / CLOCKS_PER_SEC;
+	double error = target - curValue;
 
-private:
-    double _dt;
-    double _max;
-    double _min;
-    double _Kp;
-    double _Kd;
-    double _Ki;
-    double _pre_error;
-    double _integral;
-};
+	double pOut = error * kp;
+	double iOut = ((error + lastError) / 2.0) * dt * ki;
+	double dOut = (error - lastError) / dt * kd;
 
+	// don't accumulate integrator error in steady state
+	if(fabs(error) > iErrBand)
+		accI += iOut;
+	// integrator clamping to prevent runaway on integrator build up
+	if(accI > iLimit)
+		accI = iLimit;
+	else if(accI < -iLimit)
+		accI = -iLimit;
 
-PID::PID(double dt, double max, double min, double Kp, double Kd, double Ki)
-{
-    pimpl = new PIDImpl(dt, max, min, Kp, Kd, Ki);
-}
-double PID::calculate(double setpoint, double pv)
-{
-    return pimpl->calculate(setpoint, pv);
-}
-PID::~PID()
-{
-    delete pimpl;
-}
+	if(pidType == rate)
+		output += pOut + accI + dOut;
+	else if(pidType == distance)
+		output = pOut + accI + dOut;
 
+	// clamp output
+	if(output > 1.0)
+		output = 1.0;
+	else if(output < -1.0)
+		output = -1.0;
 
-/**
-* Implementation
-*/
-PIDImpl::PIDImpl(double dt, double max, double min, double Kp, double Kd, double Ki) :
-    _dt(dt),
-    _max(max),
-    _min(min),
-    _Kp(Kp),
-    _Kd(Kd),
-    _Ki(Ki),
-    _pre_error(0),
-    _integral(0)
-{
-}
+	done = (fabs(error) <= targetErrBand && fabs(output) < doneSpeed);
+	lastTime = time;
+	lastError = error;
 
-double PIDImpl::calculate(double setpoint, double pv)
-{
-
-    // Calculate error
-    double error = setpoint - pv;
-
-    // Proportional term
-    double Pout = _Kp * error;
-
-    // Integral term
-    _integral += error * _dt;
-    double Iout = _Ki * _integral;
-
-    // Derivative term
-    double derivative = (error - _pre_error) / _dt;
-    double Dout = _Kd * derivative;
-
-    // Calculate total output
-    double output = Pout + Iout + Dout;
-
-    // Restrict to max/min
-    if (output > _max)
-        output = _max;
-    else if (output < _min)
-        output = _min;
-
-    // Save error to previous error
-    _pre_error = error;
-
-    return output;
+	return output * (outMax-outMin)/2.0 + (outMax+outMin)/2.0;
 }
 
-PIDImpl::~PIDImpl()
-{
+void PID::reset(){
+	lastTime = clock();
+	lastError = 0.0;
+	accI = 0.0;
+	output = 0.0;
+	done = false;
 }
 
-#endif
+void PID::resetIntegrator(){
+	accI = 0.0;
+}

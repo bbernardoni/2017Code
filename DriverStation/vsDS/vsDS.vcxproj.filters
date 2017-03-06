@@ -35,6 +35,9 @@
     <ClCompile Include="..\src\robot\Key.cpp">
       <Filter>robot</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\utils\PID.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\gui\textOut.h">
@@ -81,6 +84,9 @@
     </ClInclude>
     <ClInclude Include="..\src\robot\Key.h">
       <Filter>robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\utils\PID.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

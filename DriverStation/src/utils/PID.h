@@ -1,24 +1,44 @@
-#ifndef _PID_H_
-#define _PID_H_
+#pragma once
 
-class PIDImpl;
-class PID
-{
+#include <cmath>
+#include <cfloat>
+#include <ctime>
+
+class PID {
 public:
-    // Kp -  proportional gain
-    // Ki -  Integral gain
-    // Kd -  derivative gain
-    // dt -  loop interval time
-    // max - maximum value of manipulated variable
-    // min - minimum value of manipulated variable
-    PID(double dt, double max, double min, double Kp, double Kd, double Ki);
+	enum PIDType {distance, rate};
+	PID(PIDType _pidType, double _kp, double _ki, double _kd);
 
-    // Returns the manipulated variable given a setpoint and current process value
-    double calculate(double setpoint, double pv);
-    ~PID();
+	void setTarget(double _target) { target = _target; }
+	void setIntegratorLimit(double limit) { iLimit = limit; }
+	void setIntegratorErrorBand(double errBand) { iErrBand = errBand; }
+	void setTargetErrorBand(double errBand) { targetErrBand = errBand; }
+	void setDoneSpeed(double speed) { doneSpeed = speed; }
+	void setOutputLimits(double min, double max) { outMin = min; outMax = max; }
+
+	double getAccumulatedIntegralError() { return accI; }
+	double getLastError() const { return lastError; }
+	bool getIfDone() { return done; }
+
+	double compute(double curValue);
+	void reset();
+	void resetIntegrator();
 
 private:
-    PIDImpl *pimpl;
+	PIDType pidType;
+	double kp, ki, kd;
+
+	double target;
+	double iLimit;
+	double iErrBand;
+	double targetErrBand;
+	double doneSpeed;
+	double outMin, outMax;
+
+	clock_t lastTime;
+	double lastError;
+	double accI;
+	double output;
+	bool done;
 };
 
-#endif
