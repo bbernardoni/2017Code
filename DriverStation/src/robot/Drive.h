@@ -9,7 +9,7 @@
 
 class Drive {
 public:
-	enum DriveMode { fieldCentric, robotCentric, tank, autonomous, numModes };
+	enum DriveMode { fieldCentric, robotCentric, tank, autonomous };
 	enum direction { front, left, right, backLeft, backRight, exitLeft, exitRight };
 	Drive(DriveMode _mode);
 	void periodic(const RobotIn& rIn, RobotOut& rOut);

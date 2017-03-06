@@ -11,7 +11,10 @@ Drive::Drive(DriveMode _mode){
 void Drive::periodic(const RobotIn& rIn, RobotOut& rOut){
 	bool isPressed = CTRL_TOGGLE_MODE;
 	if (isPressed && !modeBut){
-		mode = (DriveMode)((mode + 1) % numModes);
+		mode = (DriveMode)(mode + 1);
+		if(mode == autonomous){
+			mode = fieldCentric;
+		}
 		std::cout << "Mode changed to " << mode << std::endl;
 	}
 	modeBut = isPressed;
