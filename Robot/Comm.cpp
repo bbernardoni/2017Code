@@ -54,8 +54,8 @@ void Comm::write(){
       char t = Serial.read();
     }
   }
-  Serial.write(outBuf, 15);
-  Serial.write(outBuf, 15);
+  Serial.write(outBuf, 27);
+  Serial.write(outBuf, 27);
 }
 
 int Comm::write(unsigned char * msg, int len) {
@@ -85,14 +85,14 @@ void Comm::setOutBuf(){
   outBuf[0] = 0xff;
   float *tmp = (float *)(outBuf + 1);
   *tmp = _in_struct->gyroAngle;
-  outBuf[5] = _in_struct->sonicDistanceF;
-  outBuf[6] = _in_struct->sonicDistanceL;
-  outBuf[7] = _in_struct->sonicDistanceR;
-  outBuf[8] = _in_struct->sonicDistanceB;
-  uint16_t *tmp2 = (uint16_t *)(outBuf + 9);
+  *(tmp+1) = _in_struct->sonicDistanceF;
+  *(tmp+2) = _in_struct->sonicDistanceL;
+  *(tmp+3) = _in_struct->sonicDistanceR;
+  *(tmp+4) = _in_struct->sonicDistanceB;
+  uint16_t *tmp2 = (uint16_t *)(outBuf + 21);
   *tmp2 = _in_struct->shoulder;
   *(tmp2+1) = _in_struct->wrist;
-  outBuf[13] = _crc8(&outBuf[1], 12);
+  outBuf[13] = _crc8(&outBuf[1], 24);
   outBuf[14] = 0xdd;
 }
 

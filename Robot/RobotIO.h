@@ -3,20 +3,20 @@
 
 struct RobotIn {
 	float gyroAngle;
-  uint8_t sonicDistanceF;
-  uint8_t sonicDistanceL;
-  uint8_t sonicDistanceR;
-  uint8_t sonicDistanceB;
+  float sonicDistanceF;
+  float sonicDistanceL;
+  float sonicDistanceR;
+  float sonicDistanceB;
 
   uint16_t shoulder;
   uint16_t wrist;
 
 	RobotIn() :
 		gyroAngle(0.0f),
-    sonicDistanceF(0),
-    sonicDistanceL(0),
-    sonicDistanceR(0),
-    sonicDistanceB(0),
+    sonicDistanceF(0.0f),
+    sonicDistanceL(0.0f),
+    sonicDistanceR(0.0f),
+    sonicDistanceB(0.0f),
     shoulder(0),
     wrist(0)
 	{}

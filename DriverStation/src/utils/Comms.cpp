@@ -44,7 +44,7 @@ bool Comms::read(){
     uint8_t buffer[BUF_SIZE];
     size_t size = serial->available();
 	size = size > BUF_SIZE ? BUF_SIZE : size;
-	if(size < 30){
+	if(size < 54){
 		setOutBuf();
 		serial->write(outBuf, 15);
 		serial->write(outBuf, 15);
@@ -52,17 +52,17 @@ bool Comms::read(){
 	}
 	//std::cout << "size=" << size << std::endl;
 	serial->read(buffer, size);
-	for(int i = size - 1; i >= 14; i--) {
-        if (buffer[i] == 0xdd && buffer[i - 14] == 0xff) {
-            if (crc8.compute(&buffer[i - 13], 12) == buffer[i - 1]) {
-                float * temp = (float *)&buffer[i - 13];
+	for(int i = size - 1; i >= 26; i--) {
+        if (buffer[i] == 0xdd && buffer[i - 26] == 0xff) {
+            if (crc8.compute(&buffer[i - 25], 24) == buffer[i - 1]) {
+                float * temp = (float *)&buffer[i - 25];
                 if (*temp < 1000000)
 					in.gyroAngle = *temp;
 					//std::cout << "gyro angle=" << in.gyroAngle << std::endl;
-				in.sonicDistanceF = buffer[i - 9];
-				in.sonicDistanceL = buffer[i - 8];
-				in.sonicDistanceR = buffer[i - 7];
-				in.sonicDistanceB = buffer[i - 6];
+				in.sonicDistanceF = *(temp+1);
+				in.sonicDistanceL = *(temp+2);
+				in.sonicDistanceR = *(temp+3);
+				in.sonicDistanceB = *(temp+4);
 				in.shoulder = *((uint16_t*)(buffer+i-5));
 				in.wrist = *((uint16_t*)(buffer+i-3));
                 break;
