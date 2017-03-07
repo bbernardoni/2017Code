@@ -8,7 +8,7 @@ GUI::GUI(){
 
 	JoyPanel* joyPan1 = new JoyPanel();
 	joyPan1->setParLoc(FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
-	joyPan1->setIndex(1);
+	joyPan1->setIndex(2);
 	addElem(joyPan1);
 }
 

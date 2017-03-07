@@ -56,9 +56,8 @@ bool Comms::read(){
         if (buffer[i] == 0xdd && buffer[i - 26] == 0xff) {
             if (crc8.compute(&buffer[i - 25], 24) == buffer[i - 1]) {
                 float * temp = (float *)&buffer[i - 25];
-                if (*temp < 1000000)
-					in.gyroAngle = *temp;
-					//std::cout << "gyro angle=" << in.gyroAngle << std::endl;
+                in.gyroAngle = *temp;
+				std::cout << "gyro angle=" << in.gyroAngle << std::endl;
 				in.sonicDistanceF = *(temp+1);
 				in.sonicDistanceL = *(temp+2);
 				in.sonicDistanceR = *(temp+3);
