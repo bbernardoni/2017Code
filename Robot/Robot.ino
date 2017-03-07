@@ -63,6 +63,7 @@ void setup() {
   digitalWrite(doorUpPin, LOW);
   
   comm.begin(BAUD_RATE);
+  Serial.begin(9600);
 }
 
 void loop() {

@@ -53,16 +53,18 @@ bool Comms::read(){
 	//std::cout << "size=" << size << std::endl;
 	serial->read(buffer, size);
 	for(int i = size - 1; i >= 26; i--) {
+		//std::cout << "buff=" << (int)buffer[i] << std::endl;
         if (buffer[i] == 0xdd && buffer[i - 26] == 0xff) {
             if (crc8.compute(&buffer[i - 25], 24) == buffer[i - 1]) {
                 float * temp = (float *)&buffer[i - 25];
                 in.gyroAngle = *temp;
-				std::cout << "gyro angle=" << in.gyroAngle << std::endl;
+				//std::cout << "gyro angle=" << in.gyroAngle << std::endl;
 				in.sonicDistanceF = *(temp+1);
 				in.sonicDistanceL = *(temp+2);
 				in.sonicDistanceR = *(temp+3);
 				in.sonicDistanceB = *(temp+4);
-				in.shoulder = *((uint16_t*)(buffer+i-5));
+				in.shoulder = *((uint16_t*)(buffer + i - 5));
+				//std::cout << "shoulder=" << in.shoulder << std::endl;
 				in.wrist = *((uint16_t*)(buffer+i-3));
                 break;
             }

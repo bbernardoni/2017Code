@@ -10,11 +10,12 @@ bool Comm::read(){
   int bytes_avail = Serial2.available();
   //Serial2.print("bytes_avail = ");
   //Serial2.println(bytes_avail);
+  Serial.print("bytes_avail = ");
+  Serial.println(bytes_avail);
   if(bytes_avail < 30){
     failures++;
     return false;
   }
-  
   Serial2.readBytes(read_buf, bytes_avail);
   for (int i = bytes_avail - 1; i >= 14; i --) {   // search for last complete packet
     if (read_buf[i] == 0xdd && read_buf[i - 14] == 0xff) {   // a complete packet
@@ -23,6 +24,8 @@ bool Comm::read(){
         i -= 15;
         continue;
       }
+      Serial.print("It works to here");
+      Serial.println(_out_struct->driveFL);
       //Serial2.println("Read successful");
       _out_struct->driveFL = read_buf[i - 13];     //TODO: potential race condition. No synchronization primitives
       _out_struct->driveBL = read_buf[i - 12];
@@ -92,8 +95,8 @@ void Comm::setOutBuf(){
   uint16_t *tmp2 = (uint16_t *)(outBuf + 21);
   *tmp2 = _in_struct->shoulder;
   *(tmp2+1) = _in_struct->wrist;
-  outBuf[13] = _crc8(&outBuf[1], 24);
-  outBuf[14] = 0xdd;
+  outBuf[25] = _crc8(&outBuf[1], 24);
+  outBuf[26] = 0xdd;
 }
 
 Comm::~Comm() {
