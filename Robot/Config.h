@@ -30,5 +30,6 @@
 
 // Comms
 #define BAUD_RATE     57600
+#define READ_LEN      14
 
 #endif /* CONFIG_H */

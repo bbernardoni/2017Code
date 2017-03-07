@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <Arduino.h>
 #include "RobotIO.h"
+#include "Config.h"
 
 /**
  * The packet format:
@@ -19,7 +20,8 @@ private:
   RobotIn *_in_struct;
   RobotOut *_out_struct;
   unsigned char read_buf[128];
-  unsigned char outBuf[27];
+  unsigned char outBuf[26];
+  int bufferIndex;
   long failures;
   
 public:

@@ -2,6 +2,7 @@
 
 #define BAUD_RATE	57600
 #define TIMEOUT		500
+#define BUF_SIZE    2048
 
 #include "../robot/RobotIO.h"
 #include "CRC8.h"
@@ -37,7 +38,9 @@ private:
     RobotIn in;
     CRC8 crc8;
 
-	unsigned char outBuf[15];
+	unsigned char outBuf[14];
+	uint8_t readBuf[BUF_SIZE];
+	size_t bufferIndex;
 	void setOutBuf();
 
 	void enumerate_ports();

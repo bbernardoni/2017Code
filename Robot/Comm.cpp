@@ -4,48 +4,68 @@
 void Comm::begin(long baud_rate) {
   Serial2.begin(baud_rate);
   failures = 0;
+  bufferIndex = 0;
 }
 
 bool Comm::read(){
-  int bytes_avail = Serial2.available();
-  //Serial2.print("bytes_avail = ");
-  //Serial2.println(bytes_avail);
-  Serial.print("bytes_avail = ");
-  Serial.println(bytes_avail);
-  if(bytes_avail < 30){
+  if (Serial2.available() < READ_LEN-bufferIndex){
     failures++;
     return false;
   }
-  Serial2.readBytes(read_buf, bytes_avail);
-  for (int i = bytes_avail - 1; i >= 14; i --) {   // search for last complete packet
-    if (read_buf[i] == 0xdd && read_buf[i - 14] == 0xff) {   // a complete packet
-      uint8_t crc = _crc8(&read_buf[i - 13], 12);
-      if (crc != read_buf[i - 1]) {
-        i -= 15;
-        continue;
+  
+  if(Serial2.readBytes(read_buf + bufferIndex, READ_LEN-bufferIndex) < READ_LEN-bufferIndex){
+    bufferIndex = 0;
+    failures++;
+    return false;
+  }
+  bufferIndex = 0;
+  
+  // if the start byte is not first we have a problem
+  while(read_buf[0] != 0xdd || read_buf[READ_LEN-1] != _crc8(&read_buf[1], READ_LEN-2)){
+    // attempt to recover
+    int i;
+    for(i=1; i<READ_LEN; i++)
+      if(read_buf[i] == 0xdd)
+        break;
+    if(i >= READ_LEN){
+      // recovery failed, attempt another read in case we have more bytes in the buffer
+      return Comm::read();
+    }else{
+      // found possible start byte, attempt to read rest of message
+      for(int j=i; j<READ_LEN; j++){
+        read_buf[j-i] = read_buf[j];
       }
-      Serial.print("It works to here");
-      Serial.println(_out_struct->driveFL);
-      //Serial2.println("Read successful");
-      _out_struct->driveFL = read_buf[i - 13];     //TODO: potential race condition. No synchronization primitives
-      _out_struct->driveBL = read_buf[i - 12];
-      _out_struct->driveFR = read_buf[i - 11];
-      _out_struct->driveBR = read_buf[i - 10];
-      _out_struct->omni    = read_buf[i - 9];
-      _out_struct->shoulder= read_buf[i - 8];
-      _out_struct->wrist   = read_buf[i - 7];
-      _out_struct->keyGrabber= read_buf[i - 6];
-      _out_struct->intake  = read_buf[i - 5];
-      _out_struct->score   = read_buf[i - 4];
-      _out_struct->doorOut = read_buf[i - 3];
-      _out_struct->doorUp  = read_buf[i - 2];
-      break;
+      if(Serial.available() >= i){
+        // rest of message available
+        if(Serial.readBytes(&read_buf[READ_LEN-i], i) < i){
+          //Serial.println("didn't read rest of READ_LEN");
+          failures++;
+          return false;
+        }
+      }else{
+        // wait for rest of message
+        // we have to check next function call because this function cannot be blocking
+        bufferIndex = READ_LEN - i;
+        //Serial.println("wait for rest of message");
+        failures++;
+        return false;
+      }
     }
   }
+
+  _out_struct->driveFL   = read_buf[1];     //TODO: potential race condition. No synchronization primitives
+  _out_struct->driveBL   = read_buf[2];
+  _out_struct->driveFR   = read_buf[3];
+  _out_struct->driveBR   = read_buf[4];
+  _out_struct->omni      = read_buf[5];
+  _out_struct->shoulder  = read_buf[6];
+  _out_struct->wrist     = read_buf[7];
+  _out_struct->keyGrabber= read_buf[8];
+  _out_struct->intake    = read_buf[9];
+  _out_struct->score     = read_buf[10];
+  _out_struct->doorOut   = read_buf[11];
+  _out_struct->doorUp    = read_buf[12];
   
-//  for (int i = 0; i < 8; i++)
-//    Serial2.print(buf[i], HEX);
-//  Serial2.println(_in_struct->gyroAngle);
   failures = 0;
   return true;
 }
@@ -57,8 +77,7 @@ void Comm::write(){
       char t = Serial2.read();
     }
   }
-  Serial2.write(outBuf, 27);
-  Serial2.write(outBuf, 27);
+  Serial2.write(outBuf, 26);
 }
 
 int Comm::write(unsigned char * msg, int len) {
@@ -85,7 +104,7 @@ int Comm::read(unsigned char * buf, int bufsize) {
 }
 
 void Comm::setOutBuf(){
-  outBuf[0] = 0xff;
+  outBuf[0] = 0xdd;
   float *tmp = (float *)(outBuf + 1);
   *tmp = _in_struct->gyroAngle;
   *(tmp+1) = _in_struct->sonicDistanceF;
@@ -96,7 +115,6 @@ void Comm::setOutBuf(){
   *tmp2 = _in_struct->shoulder;
   *(tmp2+1) = _in_struct->wrist;
   outBuf[25] = _crc8(&outBuf[1], 24);
-  outBuf[26] = 0xdd;
 }
 
 Comm::~Comm() {
