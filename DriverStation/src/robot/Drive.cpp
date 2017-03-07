@@ -33,7 +33,7 @@ void Drive::periodic(const RobotIn& rIn, RobotOut& rOut){
 	}
 	autoMode = autoBut;
 	
-	std::cout << "mode=" << mode << std::endl;
+	//std::cout << "mode=" << mode << std::endl;
 	switch (mode){
 	case fieldCentric: {
 		if (CTRL_GYRO_RESET){

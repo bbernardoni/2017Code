@@ -41,6 +41,7 @@ bool Comms::read(){
 	}
     size_t size = serial->available();
 	size = size + bufferIndex > BUF_SIZE ? BUF_SIZE - bufferIndex : size;
+	//std::cout << "size=" << size << std::endl;
 	if(size < 26 - bufferIndex){
 		setOutBuf();
 		serial->write(outBuf, 14);

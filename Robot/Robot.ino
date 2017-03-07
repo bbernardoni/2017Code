@@ -38,6 +38,10 @@ Servo scoreServo;
 int doorOutPin = DOOR_OUT_PIN;
 int doorUpPin = DOOR_UP_PIN;
 
+// timing vars
+unsigned long cycle;
+unsigned long start;
+
 void setup() {
   // init Drivetrain IO
   gyro.setup();
@@ -61,6 +65,9 @@ void setup() {
   digitalWrite(doorOutPin, LOW);
   pinMode(doorUpPin, OUTPUT);
   digitalWrite(doorUpPin, LOW);
+
+  cycle = 0;
+  start = millis();
   
   comm.begin(BAUD_RATE);
   Serial.begin(9600);
@@ -71,17 +78,32 @@ void loop() {
   in.gyroAngle = gyro.getAngle();
   
   //write distances to in struct in inches
-  in.sonicDistanceF = sonicFront.ping_in();
-  in.sonicDistanceL = sonicLeft.ping_in();
-  in.sonicDistanceR = sonicRight.ping_in();
-  in.sonicDistanceB = sonicBack.ping_in();
+  switch(cycle%4){
+  case 0:
+    in.sonicDistanceF = sonicFront.ping_in(100);
+    break;
+  case 1:
+    in.sonicDistanceL = sonicLeft.ping_in(100);
+    break;
+  case 2:
+    in.sonicDistanceR = sonicRight.ping_in(100);
+    break;
+  case 3:
+    in.sonicDistanceB = sonicBack.ping_in(100);
+    break;
+  }
   
   in.shoulder = analogRead(shoulderPotPin);
   in.wrist = analogRead(wristPotPin);
 
   // Write inputs to PC
   comm.write();
-  delay(16);
+  int delayTime = 16 - (millis() - start);
+  if(delayTime<0)
+    delayTime = 0;
+  delay(delayTime);
+  //Serial.print("cycle time = "); Serial.println(millis()-start);
+  start = millis();
 
   // Read output values to IO struct
   if(comm.read()){
@@ -109,5 +131,7 @@ void loop() {
     wristMotor.write(90);
     intake.write(90);
   }
+
+  cycle++;
 }
 

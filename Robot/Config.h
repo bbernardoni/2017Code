@@ -4,7 +4,7 @@
 // Pin mappings
 #define GYRO_PIN      53
 #define DRIVE_FL_PIN  7
-#define DRIVE_BL_PIN  6
+#define DRIVE_BL_PIN  9
 #define DRIVE_FR_PIN  2
 #define DRIVE_BR_PIN  3
 #define JUMP_PIN      32
