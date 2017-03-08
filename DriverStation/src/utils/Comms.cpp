@@ -34,7 +34,6 @@ void Comms::setRobotOut(const RobotOut &newStruct) {
     out = newStruct;
 }
 
-
 bool Comms::read(){
 	if(serial == NULL){
         return false;
@@ -91,7 +90,7 @@ bool Comms::read(){
 	in.sonicDistanceR = *(temp + 3);
 	in.sonicDistanceB = *(temp + 4);
 	in.shoulder = *((uint16_t*)(readBuf + 21));
-	//std::cout << "shoulder=" << in.shoulder << std::endl;
+	std::cout << "shoulder=" << in.shoulder << std::endl;
 	in.wrist = *((uint16_t*)(readBuf + 23));
 
 	while(size = serial->available()){

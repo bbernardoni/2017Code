@@ -28,5 +28,5 @@
 #define WRIST_INS_POS           120
 #define SHOULDER_RET_POS        644
 #define WRIST_RET_POS           600
-#define MAN_SHOULDER_SPEED		0.30
-#define MAN_WRIST_SPEED			0.30
+#define MAN_SHOULDER_SPEED		0.20
+#define MAN_WRIST_SPEED			0.20

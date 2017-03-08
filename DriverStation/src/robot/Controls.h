@@ -52,8 +52,8 @@
 #define CTRL_RETRIEVE_POS       (GET_BUTTON(JOY1, RB))
 #define CTRL_INS_POS            (GET_LT(JOY1))
 #define CTRL_GRAB_KEY           (GET_BUTTON(JOY1, LB))
-#define CTRL_MAN_SHOULDER       (DB_AXIS(JOY1, RY))
-#define CTRL_MAN_WRIST          (DB_AXIS(JOY1, LY))
+#define CTRL_MAN_SHOULDER       (-DB_AXIS(JOY1, RY))
+#define CTRL_MAN_WRIST          (-DB_AXIS(JOY1, LY))
 
 #define CTRL_INTAKE             (GET_BUTTON(JOY1, Y_BUT))
 #define CTRL_DOOR_OUT           (GET_BUTTON(JOY1, A_BUT))

@@ -8,6 +8,7 @@ void Comm::begin(long baud_rate) {
 }
 
 bool Comm::read(){
+  //Serial.println(Serial2.available());
   if (Serial2.available() < READ_LEN-bufferIndex){
     failures++;
     return false;

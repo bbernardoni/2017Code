@@ -75,8 +75,6 @@ void setup() {
 
 void loop() {
   // Get Robot input values and assign then to RobotIn
-  in.gyroAngle = gyro.getAngle();
-  
   //write distances to in struct in inches
   switch(cycle%4){
   case 0:
@@ -93,7 +91,10 @@ void loop() {
     break;
   }
   
+  in.gyroAngle = gyro.getAngle();
+  
   in.shoulder = analogRead(shoulderPotPin);
+  //Serial.println(in.shoulder);
   in.wrist = analogRead(wristPotPin);
 
   // Write inputs to PC
