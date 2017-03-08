@@ -35,8 +35,8 @@ void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
 	bool inPos = true;
 	switch(state){
 	case manual:
-		rOut.shoulder = uint8_t((CTRL_MAN_SHOULDER + 1) * 90);
-		rOut.wrist = uint8_t((CTRL_MAN_WRIST + 1) * 90);
+		rOut.shoulder = uint8_t((CTRL_MAN_SHOULDER*MAN_SHOULDER_SPEED + 1) * 90);
+		rOut.wrist = uint8_t((CTRL_MAN_WRIST*MAN_WRIST_SPEED + 1) * 90);
 		break;
 	case retrieve:
 	case insert:
