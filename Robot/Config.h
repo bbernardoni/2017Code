@@ -7,7 +7,7 @@
 #define DRIVE_BL_PIN  9
 #define DRIVE_FR_PIN  2
 #define DRIVE_BR_PIN  3
-#define JUMP_PIN      32
+#define JUMP_PIN      36
 #define SONIC_T_F_PIN 40
 #define SONIC_E_F_PIN 41
 #define SONIC_T_L_PIN 42
@@ -25,8 +25,8 @@
 
 #define INTAKE_PIN    5
 #define SCORE_PIN     21
-#define DOOR_OUT_PIN  22
-#define DOOR_UP_PIN   23
+#define DOOR_OUT_PIN  34
+#define DOOR_UP_PIN   38
 
 // Comms
 #define BAUD_RATE     57600

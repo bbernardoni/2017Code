@@ -43,14 +43,14 @@ struct RobotOut {
 		driveBL(90),
 		driveFR(90),
 		driveBR(90),
-		omni(false),
+		omni(true),
     shoulder(90),
     wrist(90),
-    keyGrabber(false),
+    keyGrabber(true),
     intake(90),
     score(90),
-    doorOut(false),
-    doorUp(false)
+    doorOut(true),
+    doorUp(true)
 	{}
 };
 
