@@ -50,21 +50,21 @@ void setup() {
   driveFR.attach(DRIVE_FR_PIN);
   driveBR.attach(DRIVE_BR_PIN);
   pinMode(jumpPin, OUTPUT);
-  digitalWrite(jumpPin, LOW);
+  digitalWrite(jumpPin, HIGH);
   
   // init Key IO
   shoulderMotor.attach(SHOULDER_MOTOR_PIN);
   wristMotor.attach(WRIST_MOTOR_PIN);
   pinMode(keyGrabberPin, OUTPUT);
-  digitalWrite(keyGrabberPin, LOW);
+  digitalWrite(keyGrabberPin, HIGH);
 
   // init Ball IO
   intake.attach(INTAKE_PIN);
   scoreServo.attach(SCORE_PIN);
   pinMode(doorOutPin, OUTPUT);
-  digitalWrite(doorOutPin, LOW);
+  digitalWrite(doorOutPin, HIGH);
   pinMode(doorUpPin, OUTPUT);
-  digitalWrite(doorUpPin, LOW);
+  digitalWrite(doorUpPin, HIGH);
 
   cycle = 0;
   start = millis();
