@@ -122,7 +122,7 @@ void loop() {
     scoreServo.write(out.score);
     digitalWrite(doorOutPin, out.doorOut);
     digitalWrite(doorUpPin, out.doorUp);
-  }else if(comm.getFailures() > 30){
+  }else if(comm.getFailures() > 6){
     driveFL.write(90);
     driveBL.write(90);
     driveFR.write(90);
