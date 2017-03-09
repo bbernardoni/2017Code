@@ -8,13 +8,13 @@
 #define DRIVE_FR_PIN  2
 #define DRIVE_BR_PIN  3
 #define JUMP_PIN      36
-#define SONIC_T_F_PIN 42
-#define SONIC_E_F_PIN 43
-#define SONIC_T_L_PIN 46
-#define SONIC_E_L_PIN 47
-#define SONIC_T_R_PIN 44
-#define SONIC_E_R_PIN 45
-#define SONIC_T_B_PIN 48
+#define SONIC_T_F_PIN 49
+#define SONIC_E_F_PIN 49
+#define SONIC_T_L_PIN 49
+#define SONIC_E_L_PIN 49
+#define SONIC_T_R_PIN 49
+#define SONIC_E_R_PIN 49
+#define SONIC_T_B_PIN 49
 #define SONIC_E_B_PIN 49
 
 #define SHOULDER_MOTOR_PIN  4
@@ -24,7 +24,7 @@
 #define KEY_GRABBER_PIN     40
 
 #define INTAKE_PIN    5
-#define SCORE_PIN     21
+#define SCORE_PIN     42
 #define DOOR_OUT_PIN  34
 #define DOOR_UP_PIN   38
 

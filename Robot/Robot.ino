@@ -34,7 +34,7 @@ int keyGrabberPin = KEY_GRABBER_PIN;
 
 // Ball IO
 Servo intake;
-Servo scoreServo;
+int scorePin = SCORE_PIN;
 int doorOutPin = DOOR_OUT_PIN;
 int doorUpPin = DOOR_UP_PIN;
 
@@ -60,7 +60,8 @@ void setup() {
 
   // init Ball IO
   intake.attach(INTAKE_PIN);
-  scoreServo.attach(SCORE_PIN);
+  pinMode(scorePin, OUTPUT);
+  digitalWrite(scorePin, LOW);
   pinMode(doorOutPin, OUTPUT);
   digitalWrite(doorOutPin, HIGH);
   pinMode(doorUpPin, OUTPUT);
@@ -120,7 +121,7 @@ void loop() {
     digitalWrite(keyGrabberPin, out.keyGrabber);
     
     intake.write(out.intake);
-    scoreServo.write(out.score);
+    digitalWrite(scorePin, out.score);
     digitalWrite(doorOutPin, out.doorOut);
     digitalWrite(doorUpPin, out.doorUp);
   }else if(comm.getFailures() > 6){
