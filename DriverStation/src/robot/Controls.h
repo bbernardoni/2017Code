@@ -32,7 +32,7 @@
 #define EXP_AXIS(IN, AXIS)		(EXP(RAW_AXIS(IN, AXIS)))
 
 #define GET_BUTTON(IN, BUT)		(sf::Joystick::isButtonPressed(IN, BUT))
-#define TG_DB					(30.0f)
+#define TG_DB					(0.3f)
 #define GET_RT(IN)		        (RAW_AXIS(IN, TG) < -TG_DB)
 #define GET_LT(IN)		        (RAW_AXIS(IN, TG) > TG_DB)
 
@@ -49,8 +49,6 @@
 #define CTRL_TOGGLE_MODE        (GET_BUTTON(JOY0, START))
 #define CTRL_AUTO_MODE			(GET_BUTTON(JOY0, B_BUT))
 
-#define CTRL_RETRIEVE_POS       (GET_BUTTON(JOY1, RB))
-#define CTRL_INS_POS            (GET_LT(JOY1))
 #define CTRL_GRAB_KEY           (GET_BUTTON(JOY1, LB))
 #define CTRL_MAN_SHOULDER       (-DB_AXIS(JOY1, RY))
 #define CTRL_MAN_WRIST          (-DB_AXIS(JOY1, LY))

@@ -11,11 +11,6 @@ public:
 	Key();
 	void periodic(const RobotIn& rIn, RobotOut& rOut);
 
-	enum KeyState { manual, retrieve, insert };
-
 private:
 	bool lastGrabKey;
-	KeyState state;
-	PID shoulderPid;
-	PID wristPid;
 };
