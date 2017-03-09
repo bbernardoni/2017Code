@@ -89,9 +89,12 @@ bool Comms::read(){
 	in.sonicDistanceL = *(temp + 2);
 	in.sonicDistanceR = *(temp + 3);
 	in.sonicDistanceB = *(temp + 4);
-	in.shoulder = *((uint16_t*)(readBuf + 21));
-	std::cout << "shoulder=" << in.shoulder << std::endl;
-	in.wrist = *((uint16_t*)(readBuf + 23));
+	uint16_t pot = *((uint16_t*)(readBuf + 21));
+	if (pot < 1024)
+		in.shoulder = pot;
+	pot = *((uint16_t*)(readBuf + 23));
+	if (pot < 1024)
+		in.wrist = pot;
 
 	while(size = serial->available()){
 		size = size > BUF_SIZE ? BUF_SIZE : size;

@@ -1,6 +1,6 @@
 #pragma once
 
-#define BAUD_RATE	57600
+#define BAUD_RATE	115200
 #define TIMEOUT		500
 #define BUF_SIZE    2048
 
@@ -8,6 +8,7 @@
 #include "CRC8.h"
 #include <serial/serial.h>
 #include <iostream>
+#include <cmath>
 #include <windows.h>
 using namespace serial;
 
