@@ -2,7 +2,6 @@
 
 Ball::Ball() {
 	scoring = false;
-	scoreStartTime = 0;
 	intakeState = false;
 	lastGrabIntakeKey = false;
 	lastGrabDoorOutKey = false;
@@ -37,16 +36,10 @@ void Ball::periodic(const RobotIn& rIn, RobotOut& rOut) {
 	lastGrabDoorUpKey = CTRL_DOOR_UP;
 
 	// If score button, toggle score motor for some period of time
-	if (CTRL_SCORE) {
-		scoring = true;
-		scoreStartTime = clock(); // Get current time
-		rOut.score = SCORE_POSN;
+	if (CTRL_SCORE && !scoring) {
+		rOut.score = !rOut.score;
 	}
-
-	if (scoring && ((double)(clock() - scoreStartTime) / CLOCKS_PER_SEC > HOLD_TIME)) {
-		scoring = false;
-		rOut.score = HOLD_POSN;
-	}
+	scoring = CTRL_SCORE;
 
 
 }

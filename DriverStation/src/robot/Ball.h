@@ -13,7 +13,6 @@ public:
 
 private:
 	bool scoring;
-	clock_t scoreStartTime;
 	bool intakeState;
 	bool lastGrabIntakeKey;
 	bool lastGrabDoorOutKey;
