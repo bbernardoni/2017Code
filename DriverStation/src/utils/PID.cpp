@@ -8,8 +8,6 @@ iLimit(DBL_MAX),
 iErrBand(0.0),
 targetErrBand(1.0),
 doneSpeed(0.1),
-outMin(-1.0),
-outMax(1.0),
 lastTime(clock()),
 lastError(0.0),
 accI(0.0),
@@ -25,6 +23,8 @@ double PID::compute(double curValue){
 	double pOut = error * kp;
 	double iOut = ((error + lastError) / 2.0) * dt * ki;
 	double dOut = (error - lastError) / dt * kd;
+	if (dt == 0.0)
+		dOut = 0.0;
 
 	// don't accumulate integrator error in steady state
 	if(fabs(error) > iErrBand)
@@ -50,7 +50,7 @@ double PID::compute(double curValue){
 	lastTime = time;
 	lastError = error;
 
-	return output * (outMax-outMin)/2.0 + (outMax+outMin)/2.0;
+	return output;
 }
 
 void PID::reset(){

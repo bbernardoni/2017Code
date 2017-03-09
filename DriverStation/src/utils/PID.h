@@ -14,7 +14,6 @@ public:
 	void setIntegratorErrorBand(double errBand) { iErrBand = errBand; }
 	void setTargetErrorBand(double errBand) { targetErrBand = errBand; }
 	void setDoneSpeed(double speed) { doneSpeed = speed; }
-	void setOutputLimits(double min, double max) { outMin = min; outMax = max; }
 
 	double getAccumulatedIntegralError() { return accI; }
 	double getLastError() const { return lastError; }
@@ -33,7 +32,6 @@ private:
 	double iErrBand;
 	double targetErrBand;
 	double doneSpeed;
-	double outMin, outMax;
 
 	clock_t lastTime;
 	double lastError;

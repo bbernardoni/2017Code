@@ -34,7 +34,7 @@ struct RobotOut{
 	bool keyGrabber;
 
 	uint8_t intake;
-	uint8_t score;
+	bool score;
 	bool doorOut;
 	bool doorUp;
 
@@ -48,7 +48,7 @@ struct RobotOut{
 		wrist(90),
 		keyGrabber(true),
 		intake(90),
-		score(90),
+		score(true),
 		doorOut(true),
 		doorUp(true)
 	{}

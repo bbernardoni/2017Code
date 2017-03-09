@@ -6,8 +6,6 @@ wristPid(PID::distance, WRIST_KP, WRIST_KI, WRIST_KD)
 {
 	lastGrabKey = false;
 	state = manual;
-	shoulderPid.setOutputLimits(0, 180);
-	wristPid.setOutputLimits(0, 180);
 }
 
 void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
@@ -32,7 +30,6 @@ void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
 		state = manual;
 	}
 
-	bool inPos = true;
 	switch(state){
 	case manual:
 		rOut.shoulder = uint8_t((CTRL_MAN_SHOULDER*MAN_SHOULDER_SPEED + 1) * 90);
@@ -40,8 +37,11 @@ void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
 		break;
 	case retrieve:
 	case insert:
-		rOut.shoulder = (uint8_t)shoulderPid.compute(rIn.shoulder);
-		rOut.wrist = (uint8_t)wristPid.compute(rIn.wrist);
+		double shoulder = -shoulderPid.compute(rIn.shoulder);
+		rOut.shoulder = uint8_t((shoulder*0.4 + 1.0) * 90.0);
+		std::cout << "in=" << rIn.shoulder << " out=" << (int)rOut.shoulder << std::endl;
+		//rOut.wrist = (uint8_t)wristPid.compute(rIn.wrist);
+		rOut.wrist = 90;
 		break;
 	}
 

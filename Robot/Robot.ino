@@ -61,7 +61,7 @@ void setup() {
   // init Ball IO
   intake.attach(INTAKE_PIN);
   pinMode(scorePin, OUTPUT);
-  digitalWrite(scorePin, LOW);
+  digitalWrite(scorePin, HIGH);
   pinMode(doorOutPin, OUTPUT);
   digitalWrite(doorOutPin, HIGH);
   pinMode(doorUpPin, OUTPUT);

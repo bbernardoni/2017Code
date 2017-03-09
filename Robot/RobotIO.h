@@ -48,7 +48,7 @@ struct RobotOut {
     wrist(90),
     keyGrabber(true),
     intake(90),
-    score(false),
+    score(true),
     doorOut(true),
     doorUp(true)
 	{}
