@@ -52,6 +52,7 @@
 #define CTRL_GRAB_KEY           (GET_BUTTON(JOY1, LB))
 #define CTRL_MAN_SHOULDER       (-DB_AXIS(JOY1, RY))
 #define CTRL_MAN_WRIST          (-DB_AXIS(JOY1, LY))
+#define CTRL_STOP_HOLD          (GET_LT(JOY1))
 
 #define CTRL_INTAKE             (GET_BUTTON(JOY1, Y_BUT))
 #define CTRL_INTAKE_REV         (GET_BUTTON(JOY1, RB))
