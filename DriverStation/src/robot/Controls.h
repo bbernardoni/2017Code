@@ -54,6 +54,7 @@
 #define CTRL_MAN_WRIST          (-DB_AXIS(JOY1, LY))
 
 #define CTRL_INTAKE             (GET_BUTTON(JOY1, Y_BUT))
+#define CTRL_INTAKE_REV         (GET_BUTTON(JOY1, RB))
 #define CTRL_DOOR_OUT           (GET_BUTTON(JOY1, B_BUT))
 #define CTRL_DOOR_UP            (GET_BUTTON(JOY1, A_BUT))
 #define CTRL_SCORE              (GET_BUTTON(JOY1, X_BUT))

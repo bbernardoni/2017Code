@@ -18,7 +18,7 @@
 #define SONIC_E_B_PIN 49
 
 #define SHOULDER_MOTOR_PIN  4
-#define WRIST_MOTOR_PIN     8
+#define WRIST_MOTOR_PIN     10
 #define SHOULDER_POT_PIN    0
 #define WRIST_POT_PIN       1
 #define KEY_GRABBER_PIN     40
@@ -28,7 +28,7 @@
 #define DOOR_OUT_PIN  34
 #define DOOR_UP_PIN   38
 
-#define COMMS_RESET_PIN     13
+#define COMMS_RESET_PIN     44
 
 // Comms
 #define BAUD_RATE     115200

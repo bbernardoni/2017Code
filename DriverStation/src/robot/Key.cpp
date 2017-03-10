@@ -13,6 +13,7 @@ void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
 		holdOffset = -0.2;
 	double shoulder = CTRL_MAN_SHOULDER*MAN_SHOULDER_SPEED + holdOffset;
 	rOut.shoulder = uint8_t((shoulder + 1) * 90);
+	//std::cout << "in = " << rIn.shoulder << " out = " << rOut.shoulder << std::endl;
 	rOut.wrist = uint8_t((CTRL_MAN_WRIST*MAN_WRIST_SPEED + 1) * 90);
 
 	// grab key
