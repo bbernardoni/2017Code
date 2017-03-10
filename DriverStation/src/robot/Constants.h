@@ -17,8 +17,7 @@
 #define HOLD_TIME               5 // seconds
 
 // Key Mechanism Constants
-#define SHOULDER_MID			450
-#define SHOULDER_RAD			(1/500 * PI/2.0) // quarter rotation number
-#define MAN_SHOULDER_SPEED		0.2
-#define HOLD_SHOULDER_SPEED		0.2
+#define SHOULDER_MID			480
+#define SHOULDER_RAD			(1.0/(800-SHOULDER_MID) * PI/2.0) // quarter rotation number
+#define MAN_SHOULDER_SPEED		0.15
 #define MAN_WRIST_SPEED			0.5
