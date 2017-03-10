@@ -10,11 +10,14 @@ using namespace sf;
 AppRes* appRes;
 
 int main(){
-	RenderWindow window(VideoMode(600, 588), "Transfarmers Driver Station");
-	window.setFramerateLimit(60);
-
 	AppRes res;
 	appRes = &res;
+
+	RenderWindow window(VideoMode(600, 588), "Transfarmers Driver Station");
+	window.setFramerateLimit(60);
+	Vector2u size = res.icon.getSize();
+	window.setIcon(size.x, size.y, res.icon.getPixelsPtr());
+
 	GUI gui;
 	Comms comms;
 	Robot robot;

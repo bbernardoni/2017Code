@@ -7,7 +7,10 @@ struct AppRes {
 	AppRes(){
 		if(!arial.loadFromFile("arial.ttf"))
 			arial.loadFromFile("../../res/arial.ttf");
+		if (!icon.loadFromFile("icon.png"))
+			icon.loadFromFile("../../res/icon.png");
 	};
 
 	Font arial;
+	Image icon;
 };
