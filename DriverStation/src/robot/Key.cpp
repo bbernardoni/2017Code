@@ -18,7 +18,7 @@ void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
 	rOut.shoulder = uint8_t((shoulder + 1) * 90);
 	//std::cout << "in = " << rIn.shoulder << " out = " << (int)rOut.shoulder << std::endl;
 	rOut.wrist = uint8_t((CTRL_MAN_WRIST*MAN_WRIST_SPEED + 1) * 90);
-	std::cout << "wrist = " << (int)rOut.wrist << std::endl;
+	//std::cout << "wrist = " << (int)rOut.wrist << std::endl;
 
 	// grab key
 	bool isPressed = CTRL_GRAB_KEY;
