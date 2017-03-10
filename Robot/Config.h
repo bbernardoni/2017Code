@@ -28,6 +28,8 @@
 #define DOOR_OUT_PIN  34
 #define DOOR_UP_PIN   38
 
+#define COMMS_RESET_PIN     13
+
 // Comms
 #define BAUD_RATE     115200
 #define READ_LEN      14

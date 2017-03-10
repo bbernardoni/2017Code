@@ -107,6 +107,8 @@ void loop() {
   //Serial.print("cycle time = "); Serial.println(millis()-start);
   start = millis();
 
+  comm.checkReset();
+
   // Read output values to IO struct
   if(comm.read()){
     // Write RobotOut values to outputs
