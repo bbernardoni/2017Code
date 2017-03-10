@@ -28,7 +28,7 @@ void Ball::periodic(const RobotIn& rIn, RobotOut& rOut) {
 	//rOut.intake = uint8_t((CTRL_MAN_WRIST + 1) * 90);
 
 	// If raise door button is pressed, toggle solenoid
-	if (CTRL_DOOR_OUT && !lastGrabDoorOutKey && !(rOut.doorOut && rOut.doorUp)) {
+	if (CTRL_DOOR_OUT && !lastGrabDoorOutKey && !(!rOut.doorOut && !rOut.doorUp)) {
 		rOut.doorOut = !rOut.doorOut;
 	}
 	lastGrabDoorOutKey = CTRL_DOOR_OUT;
