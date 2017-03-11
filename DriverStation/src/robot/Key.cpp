@@ -8,7 +8,7 @@ Key::Key()
 void Key::periodic(const RobotIn& rIn, RobotOut& rOut){
 	double shoulder = CTRL_MAN_SHOULDER*MAN_SHOULDER_SPEED;
 	if (!CTRL_STOP_HOLD){
-		double holdOffset = 0.3*sin((rIn.shoulder - SHOULDER_MID)*SHOULDER_RAD);
+		double holdOffset = 0.25*sin((rIn.shoulder - SHOULDER_MID)*SHOULDER_RAD);
 		if (holdOffset > 0.2)
 			holdOffset = 0.2;
 		if (holdOffset < -0.2)

@@ -13,8 +13,6 @@ public:
 
 private:
 	bool scoring;
-	bool intakeState;
-	bool lastGrabIntakeKey;
 	bool lastGrabDoorOutKey;
 	bool lastGrabDoorUpKey;
 };

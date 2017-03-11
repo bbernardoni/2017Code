@@ -8,7 +8,7 @@
 #define EXIT_DELAY              5
 
 // Servo positions used in Ball.cpp
-#define INTAKE_ON               180
+#define INTAKE_ON               170
 #define INTAKE_OFF              90
 #define INTAKE_REV              30
 #define SCORE_POSN              false
