@@ -43,7 +43,7 @@ bool Comms::read(){
 	//std::cout << "size=" << size << std::endl;
 	if(size < 26 - bufferIndex){
 		setOutBuf();
-		serial->write(outBuf, 14);
+		serial->write(outBuf, 15);
 		return false;
 	}
 	//std::cout << "size=" << size << std::endl;
@@ -71,7 +71,7 @@ bool Comms::read(){
 			}
 
 			setOutBuf();
-			serial->write(outBuf, 14);
+			serial->write(outBuf, 15);
 			return false;
 		} else{
 			// found possible start byte, attempt to read rest of message
@@ -113,8 +113,8 @@ bool Comms::write(){
 		size = size > BUF_SIZE ? BUF_SIZE : size;
 		serial->read(buffer, size);
 	}
-	size_t bytesWritten = serial->write(outBuf, 14);
-	if(bytesWritten != 14){
+	size_t bytesWritten = serial->write(outBuf, 15);
+	if(bytesWritten != 15){
 		serial->close();
 		serial = NULL;
 		std::cout << "Connection lost during write\n";
@@ -165,7 +165,8 @@ void Comms::setOutBuf(){
 	outBuf[10] = out.score;
 	outBuf[11] = out.doorOut;
 	outBuf[12] = out.doorUp;
-	outBuf[13] = crc8.compute(&outBuf[1], 12);
+	outBuf[13] = out.compressor;
+	outBuf[14] = crc8.compute(&outBuf[1], 13);
 }
 
 bool Comms::maintainConnection(){
@@ -173,7 +174,8 @@ bool Comms::maintainConnection(){
 		std::vector<PortInfo> devices_found = list_ports();
 		for(std::vector<PortInfo>::iterator it = devices_found.begin(); it != devices_found.end(); ++it){
 			// our serial communicator has a vid of 10C4
-			if(it->hardware_id.find("10C4") != std::string::npos){ // Vendor ID
+			//if(it->hardware_id.find("10C4") != std::string::npos){ // Vendor ID
+			if (it->hardware_id.find("LOCALMFG&0002") != std::string::npos){
 				std::cout << "Trying to connect to port " << it->port << ": " << it->description << std::endl;
 				serial = new Serial(it->port, BAUD_RATE, serial::Timeout::simpleTimeout(TIMEOUT));
 

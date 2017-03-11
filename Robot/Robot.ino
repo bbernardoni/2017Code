@@ -38,6 +38,8 @@ int scorePin = SCORE_PIN;
 int doorOutPin = DOOR_OUT_PIN;
 int doorUpPin = DOOR_UP_PIN;
 
+int compressorPin = COMPRESSOR_PIN;
+
 // timing vars
 unsigned long cycle;
 unsigned long start;
@@ -66,6 +68,9 @@ void setup() {
   digitalWrite(doorOutPin, HIGH);
   pinMode(doorUpPin, OUTPUT);
   digitalWrite(doorUpPin, HIGH);
+  
+  pinMode(compressorPin, OUTPUT);
+  digitalWrite(compressorPin, HIGH);
 
   cycle = 0;
   start = millis();
@@ -126,6 +131,7 @@ void loop() {
     digitalWrite(scorePin, out.score);
     digitalWrite(doorOutPin, out.doorOut);
     digitalWrite(doorUpPin, out.doorUp);
+    digitalWrite(compressorPin, out.compressor);
   }else if(comm.getFailures() > 6){
     driveFL.write(90);
     driveBL.write(90);

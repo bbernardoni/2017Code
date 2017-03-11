@@ -38,6 +38,8 @@ struct RobotOut{
 	bool doorOut;
 	bool doorUp;
 
+	bool compressor;
+
 	RobotOut() :
 		driveFL(90),
 		driveBL(90),
@@ -50,7 +52,8 @@ struct RobotOut{
 		intake(90),
 		score(true),
 		doorOut(true),
-		doorUp(true)
+		doorUp(true),
+		compressor(true)
 	{}
 };
 

@@ -29,9 +29,10 @@
 #define DOOR_UP_PIN   38
 
 #define COMMS_RESET_PIN     44
+#define COMPRESSOR_PIN      32
 
 // Comms
-#define BAUD_RATE     115200
-#define READ_LEN      14
+#define BAUD_RATE     9600
+#define READ_LEN      15
 
 #endif /* CONFIG_H */

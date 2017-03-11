@@ -1,8 +1,8 @@
 #pragma once
 #include <SFML/Window/Joystick.hpp>
 
-#define JOY0					(2)
-#define JOY1					(0)
+#define JOY0					(1)
+#define JOY1					(2)
 
 // Control macros
 #define LX						(sf::Joystick::X)
@@ -43,11 +43,13 @@
 #define CTRL_TANK_LEFT          (-DB_AXIS(JOY0, LY))
 #define CTRL_TANK_RIGHT         (-DB_AXIS(JOY0, RY))
 
-#define CTRL_GYRO_RESET         (GET_BUTTON(JOY0, A_BUT))
+#define CTRL_GYRO_RESET         (false)//GET_BUTTON(JOY0, A_BUT))
 #define CTRL_GYRO_ROT_CCW       (GET_BUTTON(JOY0, LB))
 #define CTRL_GYRO_ROT_CW        (GET_BUTTON(JOY0, RB))
 #define CTRL_TOGGLE_MODE        (GET_BUTTON(JOY0, START))
-#define CTRL_AUTO_MODE			(GET_BUTTON(JOY0, B_BUT))
+#define CTRL_AUTO_MODE			(false)//GET_BUTTON(JOY0, B_BUT))
+#define CTRL_COMP_ON	        (GET_BUTTON(JOY0, A_BUT))
+#define CTRL_COMP_OFF			(GET_BUTTON(JOY0, B_BUT))
 
 #define CTRL_GRAB_KEY           (GET_BUTTON(JOY1, LB))
 #define CTRL_MAN_SHOULDER       (-DB_AXIS(JOY1, RY))

@@ -86,6 +86,7 @@ bool Comm::read(){
   _out_struct->score     = read_buf[10];
   _out_struct->doorOut   = read_buf[11];
   _out_struct->doorUp    = read_buf[12];
+  _out_struct->compressor= read_buf[13];
   
   failures = 0;
   return true;

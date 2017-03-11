@@ -33,7 +33,14 @@ void Drive::periodic(const RobotIn& rIn, RobotOut& rOut){
 	}
 	autoMode = autoBut;
 	
-	//std::cout << "mode=" << mode << std::endl;
+	if (CTRL_COMP_ON){
+		rOut.compressor = false;
+	}
+	if (CTRL_COMP_OFF){
+		rOut.compressor = true;
+	}
+
+	//std::cout << "comp=" << rOut.compressor << std::endl;
 	switch (mode){
 	case fieldCentric: {
 		if (CTRL_GYRO_RESET){
