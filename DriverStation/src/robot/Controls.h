@@ -1,8 +1,8 @@
 #pragma once
 #include <SFML/Window/Joystick.hpp>
 
-#define JOY0					(1)
-#define JOY1					(2)
+#define JOY0					(0)
+#define JOY1					(1)
 
 // Control macros
 #define LX						(sf::Joystick::X)
